@@ -97,8 +97,8 @@ class BasicOptParser:
     def show_usage(self):
         """Print usage/help information"""
 
-        print "%s - %s\n\nUsage: %s [options] arg, ...\n" % \
-              (self.prog_name,self.prog_info,self.prog_name)
+        print("%s - %s\n\nUsage: %s [options] arg, ...\n" % \
+              (self.prog_name,self.prog_info,self.prog_name))
 
         for otype, s, l, attr, help in self.opts:
             
@@ -119,7 +119,7 @@ class BasicOptParser:
             if len(help):
                 hs = hs + ':\n\t' + help
 
-            print hs
+            print(hs)
 
     # -*- internal API below -*-
     
@@ -181,7 +181,7 @@ class BasicOptDataVal:
             
     def __str__(self):
         s = 'BasicOptDataVal:\n'
-        for k,v in self.__dict__.items():
+        for k,v in list(self.__dict__.items()):
             s = s + '    %s: %s\n' % (str(k),str(v))
 
         return s

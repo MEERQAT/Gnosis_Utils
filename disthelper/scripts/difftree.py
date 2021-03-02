@@ -9,7 +9,7 @@
 # make sure I can import disthelper
 import sys
 sys.path.insert(0,'.')
-import grab_disthelper
+from . import grab_disthelper
     
 # now the real code begins ...
 
@@ -34,7 +34,7 @@ class TreeDiffer(TreeOps):
         if len(args) != 2 or \
            not os.path.isdir(args[0]) or \
            not os.path.isdir(args[1]):
-            print "** Must give two directories to diff."
+            print("** Must give two directories to diff.")
             p.show_usage()
             sys.exit(1)
 
@@ -64,14 +64,14 @@ class TreeDiffer(TreeOps):
 
         # tell user which files/dirs I couldn't access
         if len(self.nofile):
-            print "I could not access these files:"
+            print("I could not access these files:")
             for f in self.nofile:
-                print "	 %s" % f
+                print("	 %s" % f)
 
         if len(self.nodir):
-            print "I could not access these directories:"
+            print("I could not access these directories:")
             for d in self.nodir:
-                print "	 %s" % d
+                print("	 %s" % d)
     
     # - internal API - called as the tree is walked -
     def process_one_file(self,fullname,opts):
@@ -105,8 +105,8 @@ class TreeDiffer(TreeOps):
            re.search(binary_regex,buf_2):
             # yes, just display if it differs
             if buf_1 != buf_2:
-                print "Files %s and %s differ." % \
-                      (name_disp1,name_disp2)
+                print("Files %s and %s differ." % \
+                      (name_disp1,name_disp2))
 
         else:
             lines_1 = buf_1.splitlines()
@@ -125,7 +125,7 @@ class TreeDiffer(TreeOps):
                     while line[-1] in '\r\n':
                         line = line[:-1]
                         
-                    print line
+                    print(line)
         
     def process_one_dir(self,fullname):
         # at each dir, compare a list of names to see if
@@ -136,12 +136,12 @@ class TreeDiffer(TreeOps):
 
         for name in names1:
             if name not in names2:
-                print "Only in %s: %s" % (fullname,name)
+                print("Only in %s: %s" % (fullname,name))
 
         for name in names2:
             if name not in names1:
-                print "Only in %s: %s" % (os.path.join(self.second_dir_abs,
-                                                       fullname[2:]), name)
+                print("Only in %s: %s" % (os.path.join(self.second_dir_abs,
+                                                       fullname[2:]), name))
                 
     def dir_noaccess(self,fullname):
         self.nodir.append(fullname)

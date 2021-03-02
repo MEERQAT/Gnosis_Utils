@@ -20,7 +20,7 @@ shutil.copytree('../gnosis','gnosis')
 shutil.copytree('../disthelper','disthelper')
 
 # untabbing is the most foolproof, so use untabbed sources as the reference
-print "Untab first copy ..."
+print("Untab first copy ...")
 os.system('%s disthelper/scripts/untabtree.py -w 4 -r -x py disthelper gnosis' % sys.executable)
 
 os.rename('gnosis','UT-gnosis')
@@ -30,16 +30,16 @@ shutil.copytree('../gnosis','gnosis')
 shutil.copytree('../disthelper','disthelper')
 
 # untab copy
-print "Untab second copy ..."
+print("Untab second copy ...")
 os.system('%s disthelper/scripts/untabtree.py -w 4 -r -x py disthelper gnosis' % sys.executable)
 # then tab
-print "Tab second copy ..."
+print("Tab second copy ...")
 os.system('%s disthelper/scripts/tabtree.py -r -x py disthelper gnosis' % sys.executable)
 # and untab again, hopefully to original condition :-)
-print "Untab second copy ..."
+print("Untab second copy ...")
 os.system('%s disthelper/scripts/untabtree.py -w 4 -r -x py disthelper gnosis' % sys.executable)
 
-print "Diff first and second copies ..."
+print("Diff first and second copies ...")
 #os.system('diff --exclude="*.pyc" -u -r UT-disthelper disthelper > diff.disthelper')
 #os.system('diff --exclude="*pyc" -u -r UT-gnosis gnosis > diff.gnosis')
 
@@ -49,14 +49,14 @@ os.system('%s disthelper/scripts/difftree.py --exclude="*pyc" -r UT-gnosis gnosi
 err = 0
 
 if os.stat('diff.disthelper')[ST_SIZE] != 0:
-    print "******* WARNING: ttt/diff.disthelper not 0 bytes,"
+    print("******* WARNING: ttt/diff.disthelper not 0 bytes,")
     err = 1
     
 if os.stat('diff.gnosis')[ST_SIZE] != 0:
-    print "******* WARNING: ttt/diff.disthelper not 0 bytes,"
+    print("******* WARNING: ttt/diff.disthelper not 0 bytes,")
     err = 1
 
 if err == 0:
-    print "** SUCCESS!! Both diffs were zero bytes! **\n"
-    print "** You should `rm -rf ttt` after you inspect the results."
+    print("** SUCCESS!! Both diffs were zero bytes! **\n")
+    print("** You should `rm -rf ttt` after you inspect the results.")
     

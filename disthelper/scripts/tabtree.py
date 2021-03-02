@@ -8,14 +8,14 @@
 # make sure I can import disthelper
 import sys
 sys.path.insert(0,'.')
-import grab_disthelper
+from . import grab_disthelper
 
 # now the real code begins ...
 
 from disthelper.treeops.treeops import *
 from disthelper.treeops.fileops import *
 from disthelper.treeops.lineops import tabify_line, copy_line
-from indentcheck import *
+from .indentcheck import *
 
 # define the command-line arg parser
 class argv_parser(TreeOptParser):
@@ -62,7 +62,7 @@ class TabifyFileTransform(FileTransformFromLineOp):
 
         if has_tab_space_mixing( file_in ):
             # too dangerous to try tabifying with mixed line beginnings
-            print "ERROR: Skipping file '%s' - has mixed tabs & spaces" % file_in.name
+            print("ERROR: Skipping file '%s' - has mixed tabs & spaces" % file_in.name)
             self.set_lineop( copy_line )
                 
         elif self.TABWIDTH is None:
@@ -70,12 +70,12 @@ class TabifyFileTransform(FileTransformFromLineOp):
             (uses_tabs, tabwidth) = guess_indentation(file_in)
             #print "GUESSED ",uses_tabs,tabwidth
             if uses_tabs == 1:
-                print "** NOTE ** %s is already tabified - not changing." % \
-                      file_in.name
+                print("** NOTE ** %s is already tabified - not changing." % \
+                      file_in.name)
                 self.set_lineop( copy_line )
             elif uses_tabs < 0 and tabwidth < 0 and self.TABWIDTH < 0:
-                print "** NOTE ** Can't determine tab settings for %s - not changing." % \
-                      file_in.name
+                print("** NOTE ** Can't determine tab settings for %s - not changing." % \
+                      file_in.name)
                 self.set_lineop( copy_line )
             elif uses_tabs == 0:
                 self.TABWIDTH = tabwidth

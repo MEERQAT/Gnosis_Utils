@@ -45,8 +45,8 @@ class Cygwin4Win32Compiler(Mingw32CCompiler):
 
         for k in checklist:
             if getattr(self,k)[0] != 'gcc':
-                print "**** WARNING in %s: Expecting gcc for '%s', got '%s'" % \
-                      (where,k,getattr(self,k))
+                print("**** WARNING in %s: Expecting gcc for '%s', got '%s'" % \
+                      (where,k,getattr(self,k)))
                         
     def _compile(self, obj, src, ext, cc_args, extra_postargs, pp_opts):
         # make sure gcc is being used

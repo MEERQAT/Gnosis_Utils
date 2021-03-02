@@ -25,7 +25,7 @@ def test_tabber( filename, test1, test2 ):
     # copy name -> name.a and run test1 on name.a
     filecopy( filename, name2 )
     cmd = 'python tab.py %s %s' % (test1,name2)
-    print "Command: ",cmd
+    print("Command: ",cmd)
     os.system(cmd)
 
     # load both files
@@ -35,26 +35,26 @@ def test_tabber( filename, test1, test2 ):
     # now, a straight diff should show changes
     df = list(unified_diff(lines_a,lines_b))
     if len(df) == 0:
-        print "*** ERROR - expected a change when tabifying %s" % filename
+        print("*** ERROR - expected a change when tabifying %s" % filename)
         sys.exit(1)
     #else:
     #	print ''.join(df)
 
     # however, after lstripping each line, they should be
     # equal again
-    lines_a = map( string.lstrip, lines_a )
-    lines_b = map( string.lstrip, lines_b )
+    lines_a = list(map( string.lstrip, lines_a ))
+    lines_b = list(map( string.lstrip, lines_b ))
     
     df = list(unified_diff(lines_a,lines_b))
     if len(df) != 0:
-        print "*** ERROR - not the same after %s %s" % (test1,filename)
+        print("*** ERROR - not the same after %s %s" % (test1,filename))
     else:
-        print 'OK - leading whitespace changed as expected.'
+        print('OK - leading whitespace changed as expected.')
         
     # copy name -> name.b and run test2 on name.b
     filecopy(name2, name3)
     cmd = 'python tab.py %s %s' % (test2,name3)
-    print "Command: ",cmd
+    print("Command: ",cmd)
     os.system(cmd)
 
     # now original & name3 should be identical
@@ -63,10 +63,10 @@ def test_tabber( filename, test1, test2 ):
 
     df = list(unified_diff(lines_a,lines_b))
     if len(df) != 0:
-        print "*** ERROR - lossage after %s %s" % (test2,filename)
+        print("*** ERROR - lossage after %s %s" % (test2,filename))
         sys.exit(1)
     else:
-        print "OK - no changes after %s -> %s" % (test1,test2)
+        print("OK - no changes after %s -> %s" % (test1,test2))
 
 # t1 has spaces, so run --tabify first
 test_tabber('t1.txt','--tabify','--untabify')

@@ -22,15 +22,15 @@ from glob import glob
 # so I don't have to do this everywhere below ..
 if os.name not in ['posix','os2','nt']:
     # need to know pathsep in PATH, .exe extension (see below)
-    print "***"
-    print "*** SORRY - don't know how to run on this platform."
-    print "***" 
+    print("***")
+    print("*** SORRY - don't know how to run on this platform.")
+    print("***") 
     sys.exit(1)
 
 def run(cmd):
-    print "%s" % cmd
+    print("%s" % cmd)
     if os.system(cmd) != 0:
-        print "ERROR"
+        print("ERROR")
         sys.exit(1)
 
 def exe_in_path( name ):
@@ -55,8 +55,8 @@ def enum_pythons():
     else:
         patt = ['python%s.exe'] * len(vers)
 
-    allpyvers = map(lambda x,y: x % y, patt, vers)
-    existpy = filter(lambda x: exe_in_path(x), allpyvers)
+    allpyvers = list(map(lambda x,y: x % y, patt, vers))
+    existpy = [x for x in allpyvers if exe_in_path(x)]
 
     if len(existpy) == 0:
         # on a system w/out versioned names, use default
@@ -73,7 +73,7 @@ for py in enum_pythons():
 
     l = glob('Gnosis_Utils-*.tar.gz')
     if len(l) == 2:
-        print "** Hey, delete the -master first, if you're sitting in dist/"
+        print("** Hey, delete the -master first, if you're sitting in dist/")
         sys.exit(1)
         
     if len(l) == 1:

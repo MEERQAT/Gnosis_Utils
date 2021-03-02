@@ -23,7 +23,7 @@ import sys
 
 # make disthelper accessible
 sys.path.insert(0,'.')
-import scripts.grab_disthelper
+from . import scripts.grab_disthelper
 
 # now the real code begins ...
 
@@ -40,7 +40,7 @@ try:
     # using _winreg requires Python 2.0+, however we can detect
     # Python version back to (at least) 1.5.2 since they all
     # follow the same registration scheme.
-    from _winreg import OpenKey, HKEY_LOCAL_MACHINE, EnumKey, \
+    from winreg import OpenKey, HKEY_LOCAL_MACHINE, EnumKey, \
          QueryInfoKey, QueryValueEx
     HAVE_WIN32_REGISTRY = 1
 except:
@@ -183,7 +183,7 @@ open('lineout','w').write('%s %s %s %s %s\\n' % (os.name,sys.platform,v[0],v[1],
 
     p = line.split()
     
-    return (p[0], p[1], map( int, p[2:] ))
+    return (p[0], p[1], list(map( int, p[2:] )))
     
 def get_python_verlist():
     """
@@ -261,33 +261,33 @@ def find_py_minor( ver ):
             [ver[0],ver[1],255] )
 
 def usage():
-    print "Usage: find_python args"
-    print ""
-    print "Find a Python executable on the local machine satisfying"
-    print "user-specified criteria."
-    print ""
-    print "args can be one of:"
-    print ""
-    print "   show"
-    print "      List all Pythons in a human-readable way."
-    print ""
-    print "   atleast version"
-    print "      Find a Python of at least the given version number."
-    print "      (version can be like '2', '2.1', '2.2.1')"
-    print ""
-    print "   between ver1 ver2"
-    print "      Find a Python at least ver1 and not higher than ver2"
-    print ""
-    print "   match-minor version"
-    print "      Find a Python matching the minor version"
-    print "      (i.e. '2.0' matches 2.0.0, 2.0.1, .. , but NOT 2.1+)"
-    print ""
+    print("Usage: find_python args")
+    print("")
+    print("Find a Python executable on the local machine satisfying")
+    print("user-specified criteria.")
+    print("")
+    print("args can be one of:")
+    print("")
+    print("   show")
+    print("      List all Pythons in a human-readable way.")
+    print("")
+    print("   atleast version")
+    print("      Find a Python of at least the given version number.")
+    print("      (version can be like '2', '2.1', '2.2.1')")
+    print("")
+    print("   between ver1 ver2")
+    print("      Find a Python at least ver1 and not higher than ver2")
+    print("")
+    print("   match-minor version")
+    print("      Find a Python matching the minor version")
+    print("      (i.e. '2.0' matches 2.0.0, 2.0.1, .. , but NOT 2.1+)")
+    print("")
     sys.exit(1)
 
 def parse_version_string( ver ):
 
     # this will catch errors, like passing non-numeric strings
-    l = map(int, string.split(ver,'.'))
+    l = list(map(int, string.split(ver,'.')))
     if len(l) > 3:
         raise "Version string too long"
 
@@ -301,32 +301,32 @@ if __name__ == '__main__':
 
     if sys.argv[1] == 'show':
         pylist = find_all_pythons()
-        print "Here are all the Pythons I found:"
+        print("Here are all the Pythons I found:")
         for name in pylist:
-            print "\t%s" % name
+            print("\t%s" % name)
 
-        print "Here is the minimum set, with version numbers:"
+        print("Here is the minimum set, with version numbers:")
         verlist = get_python_verlist()
         for exe,ver in verlist:
-            print "\t%s = Python %s, %s, %d.%d.%d" % (exe,ver[0],ver[1],
-                                                      ver[2][0],ver[2][1],ver[2][2])
+            print("\t%s = Python %s, %s, %d.%d.%d" % (exe,ver[0],ver[1],
+                                                      ver[2][0],ver[2][1],ver[2][2]))
         
     if sys.argv[1] == 'atleast':
         if len(sys.argv) != 3:
             usage()
 
-        print find_py_atleast( parse_version_string(sys.argv[2]) )
+        print(find_py_atleast( parse_version_string(sys.argv[2]) ))
 
     elif sys.argv[1] == 'between':
         if len(sys.argv) != 4:
             usage()
 
-        print find_py_between( parse_version_string(sys.argv[2]),
-               parse_version_string(sys.argv[3]) )
+        print(find_py_between( parse_version_string(sys.argv[2]),
+               parse_version_string(sys.argv[3]) ))
 
     elif sys.argv[1] == 'match-minor':
         if len(sys.argv) != 3:
             usage()
 
-        print find_py_minor( parse_version_string(sys.argv[2]) )
+        print(find_py_minor( parse_version_string(sys.argv[2]) ))
     

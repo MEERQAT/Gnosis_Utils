@@ -197,9 +197,9 @@ class TreeOptParser(BasicOptParser):
 
         # compile them all
         if opts.nocase:
-            regexlist = map(lambda x: re.compile(x,re.I), regexlist)
+            regexlist = [re.compile(x,re.I) for x in regexlist]
         else:
-            regexlist = map(lambda x: re.compile(x), regexlist)
+            regexlist = [re.compile(x) for x in regexlist]
             
         # save into opts
         setattr(opts, 'regexlist', regexlist)
@@ -219,9 +219,9 @@ class TreeOptParser(BasicOptParser):
 
         # compile them all
         if opts.nocase:
-            exclude_list = map(lambda x: re.compile(x,re.I), exclude_list)
+            exclude_list = [re.compile(x,re.I) for x in exclude_list]
         else:
-            exclude_list = map(lambda x: re.compile(x), exclude_list)
+            exclude_list = [re.compile(x) for x in exclude_list]
 
         # save into opts
         setattr(opts, 'exclude_list', exclude_list)

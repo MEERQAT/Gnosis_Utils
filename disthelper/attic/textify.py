@@ -176,7 +176,7 @@ reflags = 0
 if opts.nocase:
     reflags = re.I
     
-globlist = map(lambda x: re.compile(x,reflags), globlist)
+globlist = [re.compile(x,reflags) for x in globlist]
 
 # set user-selected tabwidth
 TABWIDTH = opts.tabwidth

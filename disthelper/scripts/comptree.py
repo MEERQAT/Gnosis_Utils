@@ -9,7 +9,7 @@
 # make sure I can import disthelper
 import sys
 sys.path.insert(0,'.')
-import grab_disthelper
+from . import grab_disthelper
 
 # now the real code begins ...
 
@@ -31,7 +31,7 @@ class TreeCompiler(TreeOps):
         opts,args = p.parse_argv(argv)
 
         if len(args) == 0:
-            print "** Must give a directory and/or file to byte-compile."
+            print("** Must give a directory and/or file to byte-compile.")
             p.show_usage()
             sys.exit(1)
             
@@ -44,18 +44,18 @@ class TreeCompiler(TreeOps):
 
         # tell user which files/dirs I couldn't access
         if len(self.nofile):
-            print "I could not access these files:"
+            print("I could not access these files:")
             for f in self.nofile:
-                print "  %s" % f
+                print("  %s" % f)
 
         if len(self.nodir):
-            print "I could not access these directories:"
+            print("I could not access these directories:")
             for d in self.nodir:
-                print "  %s" % d
+                print("  %s" % d)
     
     # - internal API - called as the tree is walked -
     def process_one_file(self,fullname,opts):
-        print "Byte-compiling %s ..." % fullname
+        print("Byte-compiling %s ..." % fullname)
         compiler.compileFile(fullname)
         
     def process_one_dir(self,fullname):

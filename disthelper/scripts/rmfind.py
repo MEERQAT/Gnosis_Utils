@@ -22,7 +22,7 @@
 # make sure I can import disthelper
 import sys
 sys.path.insert(0,'.')
-import grab_disthelper
+from . import grab_disthelper
 
 # now the real code begins ...
 
@@ -36,7 +36,7 @@ class TreeOpRmFind(TreeOps):
     def process_one_file(self,fullname,opts):
         "Called for each matched file."
         if opts.verbose:
-            print "rm",fullname
+            print("rm",fullname)
 
         unlink(fullname)
         
@@ -67,10 +67,10 @@ if len(args) == 0:
 
 if len(opts.regexlist) == 0:
     # safety ... running with no args means "rm *".
-    print "***"
-    print "*** No pattern given - I'm assuming you DON'T really mean `rm *` or `rm -rf *`"
-    print "*** If you really want to do `rm -rf *`, then use -R \"*\""
-    print "***"
+    print("***")
+    print("*** No pattern given - I'm assuming you DON'T really mean `rm *` or `rm -rf *`")
+    print("*** If you really want to do `rm -rf *`, then use -R \"*\"")
+    print("***")
     sys.exit(1)
     
 # Run TreeOpRmFind on the tree
