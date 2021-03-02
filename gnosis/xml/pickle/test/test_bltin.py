@@ -21,13 +21,13 @@ def checkfoo(o1,o2):
     # make sure it pulled out the correct class
     if o1.__class__ != foo_class or \
        o2.__class__ != foo_class:
-        raise "ERROR(0)"
+        raise Exception("ERROR(0)")
 
     # check data
     for attr in ['s1','s2','f','i','i2','li',
                  'j','n','d','l','tup']:
         if getattr(o1,attr) != getattr(o2,attr):
-            raise "ERROR(1)"
+            raise Exception("ERROR(1)")
         
 ### we print type+value to make sure unpickling really worked
 ##def printfoo(obj):

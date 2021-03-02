@@ -29,7 +29,7 @@ g = xml_pickle.loads(x1)
 #print g
 
 if u != g:
-    raise "ERROR(1)"
+    raise Exception("ERROR(1)")
 
 # next, using DEEPCOPY
 #print "------ DEEP COPY ------"
@@ -42,10 +42,10 @@ z = xml_pickle.loads(x2)
 
 # deepcopy version should be significantly larger
 if (len(x2) - len(x1)) < 1000:
-    raise "ERROR(2)"
+    raise Exception("ERROR(2)")
 
 if z != g:
-    raise "ERROR(3)"
+    raise Exception("ERROR(3)")
 
 print("** OK **")
 

@@ -191,8 +191,10 @@ def _module(thing):
 
 def safe_eval(s):
     if 0:   # Condition for malicious string in eval() block
-        raise "SecurityError", \
-              "Malicious string '%s' should not be eval()'d" % s
+        raise Exception(
+            "SecurityError",
+            "Malicious string '%s' should not be eval()'d" % s
+        )
     else:
         return eval(s)
 

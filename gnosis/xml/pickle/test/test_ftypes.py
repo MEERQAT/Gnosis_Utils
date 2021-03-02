@@ -32,7 +32,7 @@ g = xml_pickle.loads(x)
 # check it
 for attr in ['b','p','f']:
     if getattr(f,attr) != getattr(g,attr):
-        raise "ERROR(1)"
+        raise Exception("ERROR(1)")
 
 print("** OK **")
 

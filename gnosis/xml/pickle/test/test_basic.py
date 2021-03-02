@@ -72,16 +72,16 @@ if __name__=='__main__':
 
     # sanity, can't possibly happen
     if id(o) == id(t) or id(o.obj) == id(t.obj):
-        raise "ERROR(0)"
+        raise Exception("ERROR(0)")
     
     # check that it is the same
     for attr in ['num','str','lst','lst2']:
         if getattr(o,attr) != getattr(t,attr):
-            raise "ERROR(1)"
+            raise Exception("ERROR(1)")
 
     for attr in ['tup','tup2','num','dct','dct2']:
         if getattr(o.obj,attr) != getattr(t.obj,attr):
-            raise "ERROR(2)"
+            raise Exception("ERROR(2)")
         
     #print t.dumps()
     #print '-----* Load a test xml_pickle object, and print it *-----'
@@ -96,7 +96,7 @@ if __name__=='__main__':
        u.doors != 4 or \
        u.tow_hitch != None or \
        u.options != {'Cup Holders': 4, 'Custom Wheels': 'Chrome Spoked'}:
-        raise "ERROR(4)"
+        raise Exception("ERROR(4)")
 
     print("** OK **")
     

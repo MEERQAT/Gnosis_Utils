@@ -20,7 +20,7 @@ f.t = ([4,5,6],[7,8,9],[10,11,12])
 def testfoo(o1,o2):
     for attr in ['l','d','t']:
         if getattr(o1,attr) != getattr(o2,attr):
-            raise "ERROR(1)"		
+            raise Exception("ERROR(1)")
 #
 # test dump/load to/from a string
 #

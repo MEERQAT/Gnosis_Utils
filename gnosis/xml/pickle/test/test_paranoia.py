@@ -36,7 +36,7 @@ setParanoia(2)
 try:
     # should not be able to load at all
     ud = x.loads(ud_xml)
-    raise "FAILED 1!!"
+    raise Exception("FAILED 1!!")
 except:
     incOK()
 
@@ -49,7 +49,7 @@ ud = x.loads(ud_xml)
 try:
     # ud should exist, but as data only
     a = ud['Two']
-    raise "FAILED 2!!"
+    raise Exception("FAILED 2!!")
 except:
     incOK()
 
@@ -63,7 +63,7 @@ try:
     i = ud['Two']
     incOK()
 except:
-    raise "FAILED 3!!"
+    raise Exception("FAILED 3!!")
 
 # now it should fail again (to prove that the manual
 # import didn't "stick" in xml_pickle's namespace)
@@ -71,7 +71,7 @@ setParanoia(2)
 
 try:
     ud = x.loads(ud_xml)
-    raise "FAILED 4!!"
+    raise Exception("FAILED 4!!")
 except:
     incOK()
 
@@ -86,7 +86,7 @@ try:
     i = ud['One']
     incOK()
 except:
-    raise "FAILED 5!!"
+    raise Exception("FAILED 5!!")
 
 # once again, show it fails, so we haven't corrupted
 # the xml_pickle namespace
@@ -94,7 +94,7 @@ setParanoia(2)
 
 try:
     ud = x.loads(ud_xml)
-    raise "FAILED 6!!"
+    raise Exception("FAILED 6!!")
 except:
     incOK()
 
@@ -110,16 +110,16 @@ ud = x.loads(ud_xml)
 try:
     # did it REALLY use MyDict?
     if ud.__class__.__name__ != "MyDict":
-        raise "FAILED 7!!"
+        raise Exception("FAILED 7!!")
     else:
         # ud should have full functionality
         i = ud['One']
         incOK()
 except:
-    raise "FAILED 8!!"
+    raise Exception("FAILED 8!!")
 
 if COUNTER != 7:
-    raise "FAILED 9!!"
+    raise Exception("FAILED 9!!")
 
 print("** OK **")
 

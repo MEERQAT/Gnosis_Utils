@@ -140,7 +140,7 @@ class foo(object):
 f = foo()
 try:
     f.ccc = 1
-    raise "BAD SLOTS"
+    raise Exception("BAD SLOTS")
 except AttributeError:
     pass
 """

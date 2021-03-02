@@ -48,7 +48,7 @@ x = xmp.loads(s)
 # check it
 for attr in ['a','b','c','f','k']:
     if getattr(f,attr) != getattr(x,attr):
-        raise "ERROR(1)"
+        raise Exception("ERROR(1)")
     
 # dump builtin obj containing bools
 s = xmp.dumps( (True,False) )
@@ -60,7 +60,7 @@ x = xmp.loads( s )
 
 # check
 if x[0] != True or x[1] != False:
-    raise "ERROR(2)"
+    raise Exception("ERROR(2)")
 
 # dump bool itself as toplevel obj
 s = xmp.dumps( True )
@@ -71,6 +71,6 @@ x = xmp.loads(s)
 #print "Expect True: ",x
 
 if x != True:
-    raise "ERROR(3)"
+    raise Exception("ERROR(3)")
 
 print("** OK **")

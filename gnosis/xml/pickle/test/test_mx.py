@@ -16,7 +16,7 @@ class foo_class:
 def testfoo(o1,o2):
     for attr in ['t','d','ud','l','ul','tup']:
         if getattr(o1,attr) != getattr(o2,attr):
-            raise "ERROR(1)"
+            raise Exception("ERROR(1)")
         
 def printfoo(obj):
     print(type(obj.t), obj.t)

@@ -114,7 +114,7 @@ def check_combo(o1,o2):
            o1.a != o2.a or o1.a.a != o2.a.a or \
            o1.a.b != o2.a.b or \
            o1.a.zz != o2.a.zz:
-        raise "ERROR(1)"
+        raise Exception("ERROR(1)")
     
 #
 # test all coredata+attr classes
@@ -210,7 +210,7 @@ check_combo(x,g)
 def check_core(o1,o2):
     if o1.__class__ != o2.__class__ or \
            o1.a != o2.a:
-        raise "ERROR(2)"
+        raise Exception("ERROR(2)")
 
 #
 # test all coredata only classes
@@ -317,7 +317,7 @@ s = xml_pickle.dumps(x)
 g = xml_pickle.loads(s)
 #print x, x.a, x.b
 if g.a != x.a or g.b != x.b:
-    raise "ERROR(3)"
+    raise Exception("ERROR(3)")
 
 #print "* toplevel, wrapped"
 x = lcore([6,7,8])
@@ -327,7 +327,7 @@ s = xml_pickle.dumps(x)
 g = xml_pickle.loads(s)
 #print g
 if x != g:
-    raise "ERROR(4)"
+    raise Exception("ERROR(4)")
 
 # check empty containers
 
@@ -339,7 +339,7 @@ s = xml_pickle.dumps(x)
 g = xml_pickle.loads(s)
 #print g
 if x != g:
-    raise "ERROR(5)"
+    raise Exception("ERROR(5)")
 
 #print "* empty dict"
 x = dcore()
@@ -349,7 +349,7 @@ s = xml_pickle.dumps(x)
 g = xml_pickle.loads(s)
 #print g
 if x != g:
-    raise "ERROR(6)"
+    raise Exception("ERROR(6)")
 
 #print "* empty tuple"
 x = tcore()
@@ -359,7 +359,7 @@ s = xml_pickle.dumps(x)
 g = xml_pickle.loads(s)
 #print g
 if x != g:
-    raise "ERROR(7)"
+    raise Exception("ERROR(7)")
 
 print("** OK **")
 

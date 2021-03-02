@@ -66,7 +66,7 @@ class XML_Indexer(indexer.PreferredIndexer, indexer.TextSplitter):
         try:
             py_obj = XML_Objectify(fname, EXPAT).make_instance()
             if not py_obj:      # Fallback to DOM where Expat has problems
-                raise "BadPaserError"
+                raise Exception("BadPaserError")
                 py_obj = XML_Objectify(fname, DOM).make_instance()
             if self.quiet < 5: print("Indexing", fname)
         except IOError:

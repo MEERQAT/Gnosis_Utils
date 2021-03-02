@@ -18,7 +18,7 @@ funcs.set_parser()
 ##		  # test 1 -- unpickler should NOT restore any
 ##		  # attributes before __init__ is called
 ##		  if len(self.__dict__.keys()) != 0:
-##			  raise "ERROR -- attrs shouldn't exists before __init__"
+##			  raise Exception("ERROR -- attrs shouldn't exists before __init__")
 
 ##		  self.a = a
 ##		  self.b = b
@@ -76,7 +76,7 @@ funcs.set_parser()
 
 ### test 2 -- make sure other attrs were restored
 ##if len(m.__dict__.keys()) != 8:
-##	  raise "FAILED TO RESTORE attrs", m.__dict__.keys()
+##	  raise Exception("FAILED TO RESTORE attrs", m.__dict__.keys())
 
 ### test 3 -- make sure attrs overwrote anything set in __init__
 ###			  (one could argue it either way, but that's the
@@ -84,7 +84,7 @@ funcs.set_parser()
 
 ##print m.a,m.b,m.c
 ##if m.c != 3:
-##	  raise "attributes didn't override initargs!"
+##	  raise Exception("attributes didn't override initargs!")
 
 ##try:
 ##	  print "Expect: OK y c 11"
@@ -113,7 +113,7 @@ class Old_noinit:
 
 class Old_init:
     def __init__(self):
-        raise "ERROR - Init in Old"
+        raise Exception("ERROR - Init in Old")
     def work(self): # prove object is alive
         inc()
         
@@ -121,13 +121,13 @@ if pyconfig.Have_Slots():
     class New_slots_and_init(int):
         __slots__ = ('this','that')
         def __init__(self):
-            raise "ERROR - Init in New w/slots"
+            raise Exception("ERROR - Init in New w/slots")
         def work(self): # prove object is alive
             inc()
             
     class New_init_no_slots(int):
         def __init__(self):
-            raise "Init in New w/o slots"
+            raise Exception("Init in New w/o slots")
         def work(self): # prove object is alive
             inc()
             
@@ -158,7 +158,7 @@ for o in olist:
 
 if (pyconfig.Have_Slots() and COUNTER != 6) or \
    (not pyconfig.Have_Slots() and COUNTER != 2):
-    raise "Bad count"
+    raise Exception("Bad count")
 
 #print "----------------------------------------------------"
 

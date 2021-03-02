@@ -442,7 +442,7 @@ def thing_from_sax(filehandle=None,paranoia=1):
     if filehandle:
         e.parse(filehandle)
     else:
-        raise "Must pass a fileobj"
+        raise Exception("Must pass a fileobj")
 
     return m.getobj()
 

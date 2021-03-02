@@ -49,7 +49,7 @@ o = XML_Pickler().loads(x)
 if o[0].hello() != 'FOO!' or \
    o[1].hello() != 'BAR!' or \
    o[2].hello() != 'BAT!':
-    raise "ERROR(1)"
+    raise Exception("ERROR(1)")
 
 print("** OK **")
 

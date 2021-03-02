@@ -33,12 +33,12 @@ if pyconfig.Have_ObjectClass(): # need new-style classes
     x = xml_pickle.dumps(Container(PickleMeOld))
     o = xml_pickle.loads(x)
     if o.classRef != PickleMeOld:
-        raise "ERROR(1)"
+        raise Exception("ERROR(1)")
     
     x = xml_pickle.dumps(Container(PickleMeNew))
     o = xml_pickle.loads(x)
     if o.classRef != PickleMeNew:
-        raise "ERROR(2)"
+        raise Exception("ERROR(2)")
 
 print("** OK **")
     

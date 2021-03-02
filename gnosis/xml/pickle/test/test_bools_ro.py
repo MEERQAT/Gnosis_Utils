@@ -79,17 +79,17 @@ x = xmp.loads(x1)
 if x.a != False or x.b != True or x.c != None or \
    x.f != a_test_function or x.k != a_test_class:
     #print x.__dict__
-    raise "ERROR(1)"
+    raise Exception("ERROR(1)")
 
 # bools inside a toplevel bltin
 x = xmp.loads(x2)
 if x[0] != True or x[1] != False:
-    raise "ERROR(2)"
+    raise Exception("ERROR(2)")
 
 # bool as toplevel
 x = xmp.loads(x3)
 if x != True:
-    raise "ERROR(3)"
+    raise Exception("ERROR(3)")
 
 print("** OK **")
 

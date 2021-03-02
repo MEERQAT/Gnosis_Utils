@@ -11,7 +11,7 @@ def test_list( ovlist, tname, test ):
         if (v and test(o)) or (not v and not test(o)):
             print("%s = %d .. OK" % (tname,v))
         else:
-            raise "ERROR - Wrong answer to test."
+            raise Exception("ERROR - Wrong answer to test.")
         
 # isContainer
 ol = [ ([], 1),

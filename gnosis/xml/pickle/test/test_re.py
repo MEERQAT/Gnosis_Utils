@@ -16,11 +16,11 @@ class foo_class:
 def checkfoo(o1,o2):
     if o1.__class__ != foo_class or \
        o2.__class__ != foo_class:
-        raise "ERROR(0)"
+        raise Exception("ERROR(0)")
     
     for attr in ['sre','d','ud','l','ul','tup']:
         if getattr(o1,attr) != getattr(o2,attr):
-            raise "ERROR(1)"
+            raise Exception("ERROR(1)")
 
 def printfoo(obj):
     print(type(obj.sre), obj.sre.pattern)

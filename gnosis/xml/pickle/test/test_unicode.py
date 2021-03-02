@@ -26,11 +26,11 @@ xml = dumps(o)
 o2 = loads(xml)
 # check types explicitly, since comparison will coerce types
 if not isinstance(o2.ustring,UnicodeType):
-    raise "AAGH! Didn't get UnicodeType"
+    raise Exception("AAGH! Didn't get UnicodeType")
 if not isinstance(o2.pstring,StringType):
-    raise "AAGH! Didn't get StringType for pstring"
+    raise Exception("AAGH! Didn't get StringType for pstring")
 if not isinstance(o2.estring,StringType):
-    raise "AAGH! Didn't get StringType for estring"
+    raise Exception("AAGH! Didn't get StringType for estring")
 
 #print "UNICODE:", `o2.ustring`, type(o2.ustring)
 #print "PLAIN:  ", o2.pstring, type(o2.pstring)
@@ -39,7 +39,7 @@ if not isinstance(o2.estring,StringType):
 if o.ustring != o2.ustring or \
    o.pstring != o2.pstring or \
    o.estring != o2.estring:
-    raise "ERROR(1)"
+    raise Exception("ERROR(1)")
 
 #-- Pickle with Python strings in body
 #print '\n------------* Pickle with Python strings in body *----------------------'
@@ -50,11 +50,11 @@ xml = dumps(o)
 o2 = loads(xml)
 # check types explicitly, since comparison will coerce types
 if not isinstance(o2.ustring,UnicodeType):
-    raise "AAGH! Didn't get UnicodeType"
+    raise Exception("AAGH! Didn't get UnicodeType")
 if not isinstance(o2.pstring,StringType):
-    raise "AAGH! Didn't get StringType for pstring"
+    raise Exception("AAGH! Didn't get StringType for pstring")
 if not isinstance(o2.estring,StringType):
-    raise "AAGH! Didn't get StringType for estring"
+    raise Exception("AAGH! Didn't get StringType for estring")
 
 #print "UNICODE:", `o2.ustring`, type(o2.ustring)
 #print "PLAIN:  ", o2.pstring, type(o2.pstring)
@@ -63,14 +63,14 @@ if not isinstance(o2.estring,StringType):
 if o.ustring != o2.ustring or \
    o.pstring != o2.pstring or \
    o.estring != o2.estring:
-    raise "ERROR(1)"
+    raise Exception("ERROR(1)")
 
 #-- Pickle with Unicode strings in attributes (FAIL)
 #print '\n------------* Pickle with Unicode strings in XML attrs *----------------'
 setInBody(UnicodeType, 0)
 try:
     xml = dumps(o)
-    raise "FAIL: We should not be allowed to put Unicode in attrs"
+    raise Exception("FAIL: We should not be allowed to put Unicode in attrs")
 except TypeError:
     #print "As intended, a TypeError is encountered putting Unicode in attrs"
     pass	

@@ -25,7 +25,7 @@ def jump_count(tl,txt,l,r,s):
     loops = loops+1
     if head_pos is None: head_pos = r
     elif head_pos == r: 
-        raise "InfiniteLoopError", txt[l-20:l]+'{'+txt[l]+'}'+txt[l+1:r+15]
+        raise Exception("InfiniteLoopError", txt[l-20:l]+'{'+txt[l]+'}'+txt[l+1:r+15])
     else: head_pos = r
 def emit_debug(tl,txt,l,r,s): 
     ws.append(txt[l:r])
