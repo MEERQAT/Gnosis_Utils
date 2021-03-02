@@ -346,7 +346,7 @@ if 'makedist' in sys.argv:
         print("*****************************************")
         print("* AACK! Where is sdist rawdir?")
         print("*****************************************")
-        raise "Punt"
+        raise Exception("Punt")
     
     buf = open(os.path.join(rawdir,'PKG-INFO'),'r').read()
     del gnosis.version
