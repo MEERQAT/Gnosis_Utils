@@ -6,7 +6,7 @@
 
 import pickle, os
 import gnosis.xml.pickle as xml_pickle
-from funcs import set_parser, unlink
+from .funcs import set_parser, unlink
 
 set_parser()
 
@@ -64,5 +64,5 @@ testfoo(f,g)
 unlink('aaa')
 unlink('bbb')
 
-print "** OK **"
+print("** OK **")
 

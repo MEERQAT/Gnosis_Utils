@@ -6,8 +6,8 @@ import gnosis.xml.pickle as xml_pickle
 import random, re, sys
 from gnosis.xml.pickle.ext import XMLP_Mutator, XMLP_Mutated
 import gnosis.xml.pickle.ext as mutate
-from UserList import UserList
-import funcs
+from collections import UserList
+from . import funcs
 
 funcs.set_parser()
     
@@ -269,4 +269,4 @@ if [x.x,x.y.x,x.y.z.x,x.y.z.__parent__.x] != \
    [p.x,p.y.x,p.y.z.x,p.y.z.__parent__.x]:
     raise "ERROR(9)"
 
-print "** OK **"
+print("** OK **")

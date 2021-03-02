@@ -30,9 +30,9 @@ import gnosis.pyconfig
 from types import *
 
 try:		# Get a usable StringIO
-    from cStringIO import StringIO
+    from io import StringIO
 except:
-    from StringIO import StringIO
+    from io import StringIO
 
 # default settings
 setInBody(IntType,0)
@@ -128,8 +128,7 @@ class XML_Pickler:
             if isInstanceLike(py_obj):
                 self.to_pickle = py_obj
             else:
-                raise XMLPicklingError, \
-                      "XML_Pickler must be initialized with Instance (or None)"
+                raise XMLPicklingError("XML_Pickler must be initialized with Instance (or None)")
 
     def dump(self, iohandle, obj=None, binary=0, deepcopy=None):
         "Write the XML representation of obj to iohandle."
@@ -151,7 +150,7 @@ class XML_Pickler:
         if parser:
             return parser(fh, paranoia=paranoia)
         else:
-            raise XMLUnpicklingError, "Unknown parser %s" % getParser()
+            raise XMLUnpicklingError("Unknown parser %s" % getParser())
 
     def dumps(self, obj=None, binary=0, deepcopy=None, iohandle=None):
         "Create the XML representation as a string."
@@ -221,8 +220,7 @@ def _pickle_toplevel_obj(xml_list, py_obj, deepcopy):
             # sanity check until/if we eventually support these
             # at the toplevel
             if in_body or extra:
-                raise XMLPicklingError, \
-                      "Sorry, mutators can't set in_body and/or extra at the toplevel."
+                raise XMLPicklingError("Sorry, mutators can't set in_body and/or extra at the toplevel.")
             famtype = famtype + 'family="obj" type="%s" ' % mtype
 
         module = _module(py_obj)
@@ -278,8 +276,7 @@ def pickle_instance(obj, list, level=0, deepcopy=0):
         try:
             len(args)  # must be a sequence, from pickle.py
         except:
-            raise XMLPicklingError, \
-                  "__getinitargs__() must return a sequence"
+            raise XMLPicklingError("__getinitargs__() must return a sequence")
     except:
         args = None
 
@@ -301,11 +298,10 @@ def pickle_instance(obj, list, level=0, deepcopy=0):
         if type(stuff) is DictType:
             # don't need it as a single object - save keys/vals as
             # first-level attributes
-            for key,val in stuff.items():
+            for key,val in list(stuff.items()):
                 list.append(_attr_tag(key, val, level, deepcopy))
         else:
-            raise XMLPicklingError, \
-                  "__getstate__ must return a DictType here"
+            raise XMLPicklingError("__getstate__ must return a DictType here")
     else:
         # else, encapsulate the "stuff" in an <attr name="__getstate__" ...>
         list.append(_attr_tag('__getstate__', stuff, level, deepcopy))
@@ -395,8 +391,7 @@ def _family_type(family,typename,mtype,mextra):
 
 # sanity in case Python changes ...
 if gnosis.pyconfig.Have_BoolClass() and gnosis.pyconfig.IsLegal_BaseClass('bool'):
-    raise XMLPicklingError, \
-          "Assumption broken - can now use bool as baseclass!"
+    raise XMLPicklingError("Assumption broken - can now use bool as baseclass!")
 
 Have_BoolClass = gnosis.pyconfig.Have_BoolClass()
 
@@ -486,7 +481,7 @@ def _tag_completer(start_tag, orig_thing, close_tag, level, deepcopy):
             # can't pickle unicode containing the special "escape" sequence
             # we use for putting strings in the XML body (they'll be unpickled
             # as strings, not unicode, if we do!)
-            if thing[0:2] == u'\xbb\xbb' and thing[-2:] == u'\xab\xab':
+            if thing[0:2] == '\xbb\xbb' and thing[-2:] == '\xab\xab':
                 raise Exception("Unpickleable Unicode value. To be fixed in next major Gnosis release.")
         
             # see if it contains any XML-illegal values
@@ -499,7 +494,7 @@ def _tag_completer(start_tag, orig_thing, close_tag, level, deepcopy):
             try:
                 # safe_content assumes it can always convert the string
                 # to unicode, which isn't true (eg. pickle a UTF-8 value)
-                u = unicode(thing)
+                u = str(thing)
             except:
                 raise Exception("Unpickleable string value (%s). To be fixed in next major Gnosis release." % repr(thing))
 
@@ -552,7 +547,7 @@ def _tag_completer(start_tag, orig_thing, close_tag, level, deepcopy):
         # need to remember we've seen container before pickling subitems
         visited[id(orig_thing)] = orig_thing
         if do_copy:
-            for key, val in thing.items():
+            for key, val in list(thing.items()):
                 tag_body.append(_entry_tag(key, val, level+1, deepcopy))
         else:
             close_tag = ''
@@ -583,7 +578,7 @@ def _tag_completer(start_tag, orig_thing, close_tag, level, deepcopy):
                                    thing)
             close_tag = close_tag.lstrip()
         except:
-            raise XMLPicklingError, "non-handled type %s" % type(thing)
+            raise XMLPicklingError("non-handled type %s" % type(thing))
 
     # need to keep a ref to the object for two reasons -
     #  1. we can ref it later instead of copying it into the XML stream

@@ -4,14 +4,14 @@ from types import *
 class Old_noinit: pass
 
 class Old_init:
-    def __init__(self): print "Init in Old"
+    def __init__(self): print("Init in Old")
 
 class New_slots_and_init(int):
     __slots__ = ('this','that')
-    def __init__(self): print "Init in New w/ slots"
+    def __init__(self): print("Init in New w/ slots")
 
 class New_init_no_slots(int):
-    def __init__(self): print "Init in New w/o slots"
+    def __init__(self): print("Init in New w/o slots")
 
 class New_slots_no_init(int):
     __slots__ = ('this','that')
@@ -43,7 +43,7 @@ def one():
             obj.__class__ = C
         return obj
 
-    print "----- This should be the only line -----"
+    print("----- This should be the only line -----")
     instance_noinit(MyDict)
     instance_noinit(Old_noinit)
     instance_noinit(Old_init)
@@ -75,7 +75,7 @@ def two():
             obj = C()
       return obj
 
-    print "----- Same test, fpm version of instance_noinit() -----"
+    print("----- Same test, fpm version of instance_noinit() -----")
     instance_noinit(MyDict)
     instance_noinit(Old_noinit)
     instance_noinit(Old_init)
@@ -90,7 +90,7 @@ def three():
         if hasattr(C,'__init__') and isinstance(C.__init__,MethodType):
             # the class defined init - remove it temporarily
             _init = C.__init__
-            print _init
+            print(_init)
             del C.__init__
             obj = C()
             C.__init__ = _init
@@ -99,7 +99,7 @@ def three():
             obj = C()
         return obj
 
-    print "----- Same test, dqm version of instance_noinit() -----"
+    print("----- Same test, dqm version of instance_noinit() -----")
     instance_noinit(MyDict)
     instance_noinit(Old_noinit)
     instance_noinit(Old_init)

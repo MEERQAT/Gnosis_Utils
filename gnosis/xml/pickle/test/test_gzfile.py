@@ -3,7 +3,7 @@
 
 import gnosis.xml.pickle as xml_pickle
 import gzip
-from StringIO import StringIO
+from io import StringIO
 
 # --- Make an object to play with ---
 class C: pass
@@ -25,5 +25,5 @@ o2 = xml_pickle.loads(x)
 if o.lst != o2.lst or o.dct != o2.dct:
     raise "ERROR(2)"
 
-print "** OK **"
+print("** OK **")
 

@@ -95,13 +95,13 @@ def attr_dict(o, fillslots=0):
                 dct[attr] = getattr(o,attr)
         return dct
     else:
-        raise TypeError, "Object has neither __dict__ nor __slots__"
+        raise TypeError("Object has neither __dict__ nor __slots__")
 
-attr_keys = lambda o: attr_dict(o).keys()
-attr_vals = lambda o: attr_dict(o).values()
+attr_keys = lambda o: list(attr_dict(o).keys())
+attr_vals = lambda o: list(attr_dict(o).values())
 
 def attr_update(o,new):
-    for k,v in new.items():
+    for k,v in list(new.items()):
         setattr(o,k,v)
 
 def data2attr(o):
@@ -141,7 +141,7 @@ def getCoreData(o):
     if hasCoreData(o):
         return isinstance_any(o, datatypes)(o)
     else:
-        raise TypeError, "Unhandled type in getCoreData for: ", o
+        raise TypeError("Unhandled type in getCoreData for: ").with_traceback(o)
 
 def instance_noinit(C):
     """Create an instance of class C without calling __init__
@@ -166,7 +166,7 @@ def instance_noinit(C):
     elif isNewStyleInstance(C):
         return C.__new__(C)
     else:
-        raise TypeError, "You must specify a class to create instance of."
+        raise TypeError("You must specify a class to create instance of.")
 
 if __name__ == '__main__':
     "We could use some could self-tests (see test/ subdir though)"

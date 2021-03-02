@@ -1,8 +1,8 @@
 "Demonstrate that on-the-fly and gnosis.xml.* namespaces not saved in XML file --fpm"
 
 import gnosis.xml.pickle as xml_pickle
-from UserList import UserList
-import funcs
+from collections import UserList
+from . import funcs
 import re
 
 funcs.set_parser()
@@ -84,6 +84,6 @@ s = xml_pickle.dumps(p)
 if not re.search('PyObject\s+module="__main__"\s+class="Foo"',s):
     raise "ERROR(8)"
 
-print "** OK **"
+print("** OK **")
 
 

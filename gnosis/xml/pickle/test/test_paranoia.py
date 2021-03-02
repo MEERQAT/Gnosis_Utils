@@ -3,7 +3,7 @@
 import gnosis.xml.pickle as xml_pickle
 from gnosis.xml.pickle.util import \
      setParanoia, getParanoia, add_class_to_store
-import funcs
+from . import funcs
 
 funcs.set_parser()
 
@@ -121,6 +121,6 @@ except:
 if COUNTER != 7:
     raise "FAILED 9!!"
 
-print "** OK **"
+print("** OK **")
 
     

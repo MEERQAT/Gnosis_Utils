@@ -24,7 +24,7 @@ if z.s != o1.s or z.obj1.s != o1.obj1.s or \
    z.obj2.obj4.s != o1.obj2.obj4.s:
     raise "ERROR(1)"
 
-print "** OK **"
+print("** OK **")
 
 
 

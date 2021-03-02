@@ -3,8 +3,8 @@
 import pickle, sys, string
 import gnosis.xml.pickle as xml_pickle
 from gnosis.xml.pickle.util import setParanoia
-from UserList import UserList
-import funcs
+from collections import UserList
+from . import funcs
 import gnosis.pyconfig as pyconfig
 
 funcs.set_parser()
@@ -164,4 +164,4 @@ if (pyconfig.Have_Slots() and COUNTER != 6) or \
 
 #funcs.unlink('aaa')
 
-print "** OK **"
+print("** OK **")

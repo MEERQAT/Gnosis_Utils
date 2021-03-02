@@ -6,9 +6,9 @@ __getstate__ and __getinitargs__ --fpm
 
 import pickle
 import gnosis.xml.pickle as xml_pickle
-import funcs
+from . import funcs
 from copy import copy
-from UserList import UserList
+from collections import UserList
 
 funcs.set_parser()
 xml_pickle.setParanoia(0)
@@ -29,7 +29,7 @@ class Foo:
 
         # test: unpickler should NOT restore any
         # attributes before __init__ is called
-        if len(self.__dict__.keys()) != 0:
+        if len(list(self.__dict__.keys())) != 0:
             raise "ERROR -- attrs shouldn't exist before __init__"
 
         # .a and .b assignments have no effect when unpickling.
@@ -123,4 +123,4 @@ check_foo( f.x, o.x, 5 )
 check_foo( f.y[3], o.y[3], 5 )
 check_foo( f.z[3][2], o.z[3][2], 6 )
 
-print "** OK **"
+print("** OK **")

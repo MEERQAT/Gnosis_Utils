@@ -44,7 +44,7 @@ if __name__=='__main__':
     from gnosis.xml.pickle import XML_Pickler
     import gnosis.xml.pickle as xml_pickle	
     from gnosis.xml.pickle.util import add_class_to_store
-    import funcs
+    from . import funcs
 
     funcs.set_parser()		   
     
@@ -98,7 +98,7 @@ if __name__=='__main__':
        u.options != {'Cup Holders': 4, 'Custom Wheels': 'Chrome Spoked'}:
         raise "ERROR(4)"
 
-    print "** OK **"
+    print("** OK **")
     
 
 

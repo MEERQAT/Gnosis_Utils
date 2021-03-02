@@ -5,7 +5,7 @@
 
 import gnosis.xml.pickle as xmp
 from gnosis.xml.pickle.util import setVerbose, setParser, setParanoia
-from funcs import set_parser, unlink
+from .funcs import set_parser, unlink
 import gnosis.pyconfig as pyconfig
 
 from types import *
@@ -91,5 +91,5 @@ x = xmp.loads(x3)
 if x != True:
     raise "ERROR(3)"
 
-print "** OK **"
+print("** OK **")
 

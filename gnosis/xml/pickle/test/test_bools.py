@@ -5,7 +5,7 @@
 
 import gnosis.xml.pickle as xmp
 from gnosis.xml.pickle.util import setVerbose, setParanoia
-from funcs import set_parser, unlink
+from .funcs import set_parser, unlink
 
 from types import *
 
@@ -40,7 +40,7 @@ f = foo()
 # dump an object containing bools
 s = xmp.dumps(f)
 if SHOW_XML:
-    print s
+    print(s)
 
 x = xmp.loads(s)
 #print "Expect False, True, None, func, class: ",x.a,x.b,x.c,x.f,x.k
@@ -53,7 +53,7 @@ for attr in ['a','b','c','f','k']:
 # dump builtin obj containing bools
 s = xmp.dumps( (True,False) )
 if SHOW_XML:
-    print s
+    print(s)
 
 x = xmp.loads( s )
 #print "Expect True, False: ",x[0],x[1]
@@ -65,7 +65,7 @@ if x[0] != True or x[1] != False:
 # dump bool itself as toplevel obj
 s = xmp.dumps( True )
 if SHOW_XML:
-    print s
+    print(s)
 
 x = xmp.loads(s)
 #print "Expect True: ",x
@@ -73,4 +73,4 @@ x = xmp.loads(s)
 if x != True:
     raise "ERROR(3)"
 
-print "** OK **"
+print("** OK **")

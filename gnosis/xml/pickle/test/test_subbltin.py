@@ -2,7 +2,7 @@
 
 import gnosis.xml.pickle as xml_pickle
 #from gnosis.util.introspect import hasCoreData
-import funcs
+from . import funcs
 
 funcs.set_parser()
 
@@ -82,9 +82,9 @@ def scombo(inits,a,b):
     return s
 
 # ditto for unicode
-class _ucombo(unicode):
+class _ucombo(str):
     def __init__(self,initu):
-        unicode.__init__(self,initu)
+        str.__init__(self,initu)
 
 def ucombo(initu,a,b):
     s = _ucombo(initu)
@@ -104,7 +104,7 @@ class locore(long): pass
 class fcore(float): pass
 class ccore(complex): pass
 class score(str): pass
-class ucore(unicode): pass
+class ucore(str): pass
 
 xml_pickle.setParanoia(0)
 #xml_pickle.setDeepCopy(1)
@@ -198,7 +198,7 @@ check_combo(x,g)
 
 #print "* UCOMBO"
 x = top()
-x.a = ucombo(u'a unicode combo',1,2)
+x.a = ucombo('a unicode combo',1,2)
 x.a.zz = 10
 #print x.a, x.a.a, x.a.b, x.a.zz
 s = xml_pickle.dumps(x)
@@ -257,7 +257,7 @@ check_core(x,g)
 
 #print "* LOCORE"
 x = top()
-x.a = icore(12345L)
+x.a = icore(12345)
 #print x.a
 s = xml_pickle.dumps(x)
 #print s
@@ -297,7 +297,7 @@ check_core(x,g)
 
 #print "* UCORE"
 x = top()
-x.a = ucore(u"hello ucore")
+x.a = ucore("hello ucore")
 #print x.a
 s = xml_pickle.dumps(x)
 #print s
@@ -361,7 +361,7 @@ g = xml_pickle.loads(s)
 if x != g:
     raise "ERROR(7)"
 
-print "** OK **"
+print("** OK **")
 
 
 

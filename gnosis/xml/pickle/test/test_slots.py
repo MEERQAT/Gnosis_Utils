@@ -2,7 +2,7 @@
 "Simple __slots__ test"
 
 import gnosis.xml.pickle as xml_pickle
-import funcs
+from . import funcs
 
 funcs.set_parser()
 
@@ -25,7 +25,7 @@ g = xml_pickle.loads(s)
 if g.__class__ != foo or g.a != f.a or g.b != f.b:
     raise "ERROR(1)"
 
-print "** OK **"
+print("** OK **")
 
 
 

@@ -30,7 +30,7 @@ class contact:
 
 import gnosis.xml.pickle as xml_pickle
 from gnosis.xml.pickle.util import setParanoia
-import funcs
+from . import funcs
 
 funcs.set_parser()
 
@@ -63,4 +63,4 @@ q = pickle.loads(s)
 
 checkit(c,q)
 
-print "** OK **"
+print("** OK **")

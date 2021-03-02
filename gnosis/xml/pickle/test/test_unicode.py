@@ -3,12 +3,12 @@
 from gnosis.xml.pickle import loads,dumps
 from gnosis.xml.pickle.util import setInBody
 from types import StringType, UnicodeType
-import funcs
+from . import funcs
 
 funcs.set_parser()
 
 #-- Create some unicode and python strings (and an object that contains them)
-ustring = u"Alef: %s, Omega: %s" % (unichr(1488), unichr(969))
+ustring = "Alef: %s, Omega: %s" % (chr(1488), chr(969))
 pstring = "Only US-ASCII characters"
 estring = "Only US-ASCII with line breaks\n\tthat was a tab"
 class C:
@@ -75,4 +75,4 @@ except TypeError:
     #print "As intended, a TypeError is encountered putting Unicode in attrs"
     pass	
 
-print "** OK **"
+print("** OK **")

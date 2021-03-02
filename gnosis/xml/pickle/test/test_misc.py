@@ -7,7 +7,7 @@ that don't clearly fit elsewhere. --fpm
 """
 
 import gnosis.xml.pickle as xml_pickle	
-from funcs import set_parser
+from .funcs import set_parser
 import gnosis.pyconfig as pyconfig
 
 set_parser()
@@ -40,5 +40,5 @@ if pyconfig.Have_ObjectClass(): # need new-style classes
     if o.classRef != PickleMeNew:
         raise "ERROR(2)"
 
-print "** OK **"
+print("** OK **")
     

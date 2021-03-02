@@ -1,7 +1,7 @@
 
 import gnosis.xml.pickle as xml_pickle
 import Numeric,array
-import funcs
+from . import funcs
 
 funcs.set_parser()
 
@@ -42,4 +42,4 @@ g = xml_pickle.loads(x)
 
 testfoo(f,g)
 
-print "** OK **"
+print("** OK **")

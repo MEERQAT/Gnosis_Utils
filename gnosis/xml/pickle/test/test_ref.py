@@ -2,9 +2,9 @@
 
 import gnosis.xml.pickle as xml_pickle
 from gnosis.xml.pickle.util import setParanoia, setDeepCopy
-from UserList import UserList
+from collections import UserList
 import sys
-import funcs
+from . import funcs
 
 funcs.set_parser()
 
@@ -47,6 +47,6 @@ if (len(x2) - len(x1)) < 1000:
 if z != g:
     raise "ERROR(3)"
 
-print "** OK **"
+print("** OK **")
 
 
