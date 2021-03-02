@@ -80,7 +80,7 @@ def transform_thing( thing, opts, regexlist ):
         transform_tree( lineops, root, regexlist )
 
     else:
-        raise "Unable to transform '%s'" % thing
+        raise Exception("Unable to transform '%s'" % thing)
             
 def transform_tree( lineops, root, regexlist=[] ):
     """Run list of transforms (lineops) on a directory

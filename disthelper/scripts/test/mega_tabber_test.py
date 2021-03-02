@@ -8,10 +8,10 @@ import os,shutil,sys
 from stat import *
 
 if not os.path.isfile('setup.py'):
-    raise "You must run this from the toplevel"
+    raise Exception("You must run this from the toplevel")
 
 if os.path.isdir('ttt'):
-    raise "ttt already exists - bailing out!"
+    raise Exception("ttt already exists - bailing out!")
 
 os.mkdir('ttt')
 os.chdir('ttt')

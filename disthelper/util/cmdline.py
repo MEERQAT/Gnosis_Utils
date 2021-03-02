@@ -90,7 +90,7 @@ class BasicOptParser:
             elif tup[0] == OPT_INT:
                 setattr(ropt,tup[3],int(val))				
             else:
-                raise "* internal error *"
+                raise Exception("* internal error *")
             
         return ropt,args
 
@@ -125,7 +125,7 @@ class BasicOptParser:
     
     def add_typeopt(self, otype, shortopt, longopt, attr, help=''):
         if shortopt != '' and len(shortopt) != 1:
-            raise "shortopt must be a single char, or ''"
+            raise Exception("shortopt must be a single char, or ''")
                 
         tup = (otype, shortopt, longopt, attr, help)
 
@@ -177,7 +177,7 @@ class BasicOptDataVal:
             elif otype == OPT_BOOL: 
                 setattr(self,attr,0)
             else:
-                raise "* internal error *"
+                raise Exception("* internal error *")
             
     def __str__(self):
         s = 'BasicOptDataVal:\n'

@@ -35,7 +35,7 @@ class TreeOps:
         
         if type(things) not in [ListType,TupleType]:
             self.on_end_processing() # let caller cleanup before bailing
-            raise "'things' must be a sequence"
+            raise Exception("'things' must be a sequence")
         
         # this could be more compact, but have to maintain 1.5.2 compat
 

@@ -80,7 +80,7 @@ for py in enum_pythons():
         # I'm sitting in dist/ - unpack the sdist & install
         m = re.match('(Gnosis_Utils-[0-9\.]+)\.tar\.gz',l[0])
         if not m:
-            raise "Yikes - what happened?"
+            raise Exception("Yikes - what happened?")
 
         run('tar zxvf Gnosis_Utils*.tar.gz')
         os.chdir(m.group(1))

@@ -289,7 +289,7 @@ def parse_version_string( ver ):
     # this will catch errors, like passing non-numeric strings
     l = list(map(int, string.split(ver,'.')))
     if len(l) > 3:
-        raise "Version string too long"
+        raise Exception("Version string too long")
 
     # pad with 0's
     return l + [0]*(3-len(l))
