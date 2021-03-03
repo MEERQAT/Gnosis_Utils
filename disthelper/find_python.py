@@ -23,7 +23,6 @@ import sys
 
 # make disthelper accessible
 sys.path.insert(0,'.')
-from . import scripts.grab_disthelper
 
 # now the real code begins ...
 

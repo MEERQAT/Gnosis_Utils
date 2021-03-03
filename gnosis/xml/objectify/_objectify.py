@@ -4,7 +4,6 @@ Please see the information at gnosis.xml.objectify.doc for
 explanation of usage, design, license, and other details
 """
 
-from types import *
 from io import StringIO
 from copy import deepcopy
 
@@ -24,8 +23,8 @@ except:
 KEEP_CONTAINERS = 0
 ALWAYS, MAYBE, NEVER = (1,0,-1)
 def keep_containers(val=None):
+    global KEEP_CONTAINERS
     if val is not None:
-        global KEEP_CONTAINERS
         KEEP_CONTAINERS = val
     return KEEP_CONTAINERS
 
@@ -187,7 +186,7 @@ class ExpatFactory:
         self._myparser.ParseFile(file)
         return self._root
 
-    def Parse(self, data, isfinal=1):
+    def Parse(self, data, isfinal=True):
         self._myparser.returns_unicode = self.returns_unicode
         self._myparser.Parse(data, isfinal)
         return self._root
