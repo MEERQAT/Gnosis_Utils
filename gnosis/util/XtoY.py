@@ -56,16 +56,16 @@ def aton(s):
 # we use ntoa() instead of repr() to ensure we have a known output format
 def ntoa(n):
     "Convert a number to a string without calling repr()"
-    if isinstance(n,IntType):
+    if isinstance(n,int):
         s = "%d" % n
-    elif isinstance(n,LongType):
+    elif isinstance(n,int):
         s = "%ldL" % n
-    elif isinstance(n,FloatType):
+    elif isinstance(n,float):
         s = "%.17g" % n
         # ensure a '.', adding if needed (unless in scientific notation)
         if '.' not in s and 'e' not in s:
             s = s + '.'
-    elif isinstance(n,ComplexType):
+    elif isinstance(n,complex):
         # these are always used as doubles, so it doesn't
         # matter if the '.' shows up
         s = "%.17g:%.17g" % (n.real,n.imag)

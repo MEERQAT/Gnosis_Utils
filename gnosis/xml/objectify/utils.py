@@ -6,10 +6,9 @@ explanation of usage, design, license, and other details
 
 from gnosis.xml.objectify._objectify import _XO_
 from gnosis.xml.objectify._objectify import *
-from exceptions import TypeError
 from types import *
 from itertools import islice
-from sys import maxint, stdout
+from sys import maxsize, stdout
 
 def addChild(parent, child):
     "Add a child xmlObject to a parent xmlObject"
@@ -39,7 +38,7 @@ def write_xml(o, out=stdout):
         out.write(' %s=%s' % attr)
     out.write('>')
     for node in content(o):
-        if type(node) in StringTypes:
+        if type(node) in [str]:
             out.write(node)
         else:
             write_xml(node, out=out)
@@ -95,7 +94,7 @@ def indices(path):
         else:
             stop = start+1
     else:
-        start, stop = 0, maxint
+        start, stop = 0, maxsize
     return path, start, stop
 
 def _dir(o):
@@ -115,10 +114,10 @@ def pyobj_printer(py_obj, level=0):
             if membname in ("__parent__", "_seq"):
                continue             # ExpatFactory uses bookeeping attribute
             member = getattr(py_obj,membname)
-            if type(member) == InstanceType:
+            if type(member) == object:
                 descript += '\n'+(' '*level)+'{'+membname+'}\n'
                 descript += pyobj_printer(member, level+3)
-            elif type(member) == ListType:
+            elif type(member) == list:
                 for i in range(len(member)):
                     descript += '\n'+(' '*level)+'['+membname+'] #'+str(i+1)
                     descript += (' '*level)+'\n'+pyobj_printer(member[i],level+3)

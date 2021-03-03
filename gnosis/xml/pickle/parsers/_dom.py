@@ -78,7 +78,7 @@ def unpickle_instance(node, paranoia):
     if hasattr(pyobj,'__setstate__'):
         pyobj.__setstate__(stuff)
     else:
-        if type(stuff) is DictType:	 # must be a Dict if no __setstate__
+        if type(stuff) is dict:	 # must be a Dict if no __setstate__
             # see note in pickle.py/load_build() about restricted
             # execution -- do the same thing here
             #try:
@@ -92,7 +92,7 @@ def unpickle_instance(node, paranoia):
             # does violate the pickle protocol, or because PARANOIA was
             # set too high, and we couldn't create the real class, so
             # __setstate__ is missing (and __stateinfo__ isn't a dict)
-            raise XMLUnpicklingError("Non-DictType without setstate violates pickle protocol."+\
+            raise XMLUnpicklingError("Non-dict without setstate violates pickle protocol."+\
                   "(PARANOIA setting may be too high)")
 
     return pyobj

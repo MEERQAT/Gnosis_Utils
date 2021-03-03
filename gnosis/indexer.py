@@ -182,7 +182,7 @@ def recurse_files(curdir, pattern, exclusions, func=echo_fname, *args, **kw):
         elif type(pattern)==type(re.compile('')):
             if pattern.match(name):
                 files.append(fname)
-        elif type(pattern) is StringType:
+        elif type(pattern) is str:
             if fnmatch.fnmatch(name, pattern):
                 files.append(fname)
 

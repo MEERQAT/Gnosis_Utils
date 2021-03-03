@@ -184,8 +184,8 @@ def olddata_to_newdata(data,extra,paranoia):
     #	if data[0] == '(' and data[-1] == ')':
     #		data = data[1:-1]
 
-    if isinstance_any(o,(IntType,FloatType,ComplexType,LongType)) and \
-                      type(data) in [StringType,UnicodeType]:
+    if isinstance_any(o,(int,float,complex)) and \
+                      type(data) in [str]:
         data = aton(data)
 
     o = setCoreData(o,data)
@@ -208,7 +208,7 @@ class mutate_bltin_instances(XMLP_Mutator):
 
     def mutate(self,obj):
 
-        if isinstance(obj,UnicodeType):
+        if isinstance(obj,str):
             # unicode strings are required to be placed in the body
             # (by our encoding scheme)
             self.in_body = 1

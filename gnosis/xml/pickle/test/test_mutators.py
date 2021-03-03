@@ -27,8 +27,8 @@ class mystring(XMLP_Mutator):
 # (here we fold two types to a single tagname)
 
 print("*** TEST 1 ***")
-my1 = mystring(StringType,"MyString",in_body=1)
-my2 = mystring(UnicodeType,"MyString",in_body=1)
+my1 = mystring(str,"MyString",in_body=1)
+my2 = mystring(str,"MyString",in_body=1)
 
 mutate.add_mutator(my1)
 mutate.add_mutator(my2)
@@ -57,8 +57,8 @@ mutate.remove_mutator(my2)
 
 print("*** TEST 2 ***")
 
-my1 = mystring(StringType,"string",in_body=1)
-my2 = mystring(UnicodeType,"string",in_body=1)
+my1 = mystring(str,"string",in_body=1)
+my2 = mystring(str,"string",in_body=1)
 
 mutate.add_mutator(my1)
 mutate.add_mutator(my2)
@@ -86,14 +86,14 @@ print(z)
 # mynumlist handles lists of integers and pickles them as "n,n,n,n"
 # mycharlist does the same for single-char strings
 #
-# otherwise, the ListType builtin handles the list
+# otherwise, the list builtin handles the list
 
 class mynumlist(XMLP_Mutator):
 
     def wants_obj(self,obj):
         # I only want lists of integers
         for i in obj:
-            if type(i) is not IntType:
+            if type(i) is not int:
                 return 0
 
         return 1
@@ -135,8 +135,8 @@ class mycharlist(XMLP_Mutator):
 
 print("*** TEST 3 ***")
 
-my1 = mynumlist(ListType,"NumList",in_body=1)
-my2 = mycharlist(ListType,"CharList",in_body=1)
+my1 = mynumlist(list,"NumList",in_body=1)
+my2 = mycharlist(list,"CharList",in_body=1)
 
 mutate.add_mutator(my1)
 mutate.add_mutator(my2)
@@ -174,7 +174,7 @@ class mutate_userlist(XMLP_Mutator):
     def __init__(self):
         XMLP_Mutator.__init__(self,type(UserList()),'userlist')
 
-    # type(UserList()) should be InstanceType, which is
+    # type(UserList()) should be object, which is
     # pretty generic, so we have to be careful and check
     # that the obj is a UserList (or derived)
     def wants_obj(self,obj):

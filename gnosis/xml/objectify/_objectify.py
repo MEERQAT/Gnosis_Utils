@@ -43,10 +43,10 @@ def content(o):
     return o._seq or []
 def children(o):
     "The child nodes (not PCDATA) of o"
-    return [x for x in content(o) if type(x) not in StringTypes]
+    return [x for x in content(o) if type(x) not in [str]]
 def text(o):
     "List of textual children"
-    return [x for x in content(o) if type(x) in StringTypes]
+    return [x for x in content(o) if type(x) in [str]]
 def dumps(o):
     "The PCDATA in o (preserves whitespace)"
     return "".join(text(o))
@@ -59,7 +59,7 @@ def tagname(o):
 def attributes(o):
     "List of (XML) attributes of o"
     return [(k,v) for k,v in list(o.__dict__.items())
-                  if k!='PCDATA' and type(v) in StringTypes]
+                  if k!='PCDATA' and type(v) in [str]]
 
 #-- Base class for objectified XML nodes
 class _XO_(metaclass=type):
@@ -115,7 +115,7 @@ class XML_Objectify:
                             or hasattr(xml_src,'childNodes')):
             self._dom = xml_src
             self._fh = None
-        elif type(xml_src) in (StringType, UnicodeType):
+        elif type(xml_src) in (str):
             if xml_src[0]=='<':     # looks like XML
                 from io import StringIO
                 self._fh = StringIO(xml_src)
@@ -207,7 +207,7 @@ class ExpatFactory:
         # Does our current object have a child of this type already?
         if hasattr(self._current, pyname):
             # Convert a single child object into a list of children
-            if type(getattr(self._current, pyname)) is not ListType:
+            if type(getattr(self._current, pyname)) is not list:
                 setattr(self._current, pyname, [getattr(self._current, pyname)])
             # Add the new subtag to the list of children
             getattr(self._current, pyname).append(py_obj)
@@ -287,7 +287,7 @@ def pyobj_from_dom(dom_node):
         # does a py_obj attribute corresponding to the subtag already exist?
         elif hasattr(py_obj, node_name):
             # convert a single child object into a list of children
-            if type(getattr(py_obj, node_name)) is not ListType:
+            if type(getattr(py_obj, node_name)) is not list:
                 setattr(py_obj, node_name, [getattr(py_obj, node_name)])
             # add the new subtag to the list of children
             getattr(py_obj, node_name).append(pyobj_from_dom(node))

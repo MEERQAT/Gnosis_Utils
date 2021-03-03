@@ -1,3 +1,4 @@
+import inspect
 import gnosis.xml.pickle
 from types import *
 import sys
@@ -50,7 +51,7 @@ def unpickle_function( module,name,paranoia ):
 def _get_class_from_locals(dict, modname, classname):
     for name in list(dict.keys()):
         # class imported by caller
-        if name == modname and type(dict[name]) is ModuleType:
+        if name == modname and inspect.ismodule(dict[name]):
             mod = dict[name]
             if hasattr(mod,classname):
                 return getattr(mod,classname)
@@ -199,7 +200,7 @@ def safe_eval(s):
         return eval(s)
 
 def safe_string(s):
-    if isinstance(s, UnicodeType):
+    if isinstance(s, str):
         raise TypeError("Unicode strings may not be stored in XML attributes")
 
     # markup XML entities

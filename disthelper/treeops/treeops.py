@@ -33,7 +33,7 @@ class TreeOps:
 
         self.__recurse_level = self.__recurse_level + 1
         
-        if type(things) not in [ListType,TupleType]:
+        if type(things) not in [list,tuple]:
             self.on_end_processing() # let caller cleanup before bailing
             raise Exception("'things' must be a sequence")
         

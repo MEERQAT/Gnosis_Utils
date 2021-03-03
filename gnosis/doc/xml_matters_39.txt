@@ -273,7 +273,7 @@ SERIALIZING TO XML
               out.write(' %s=%s' % attr)
           out.write('>')
           for node in content(o):
-              if type(node) in StringTypes:
+              if type(node) in [str]:
                   out.write(node)
               else:
                   write_xml(node, out=out)

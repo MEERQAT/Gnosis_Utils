@@ -18,12 +18,12 @@ from types import *
 from operator import add
 from gnosis.util.combinators import or_, not_, and_, lazy_any
 
-containers = (ListType, TupleType, DictType)
-simpletypes = (IntType, LongType, FloatType, ComplexType, StringType)
+containers = (list, tuple, dict)
+simpletypes = (int, float, complex, str)
 if gnosis.pyconfig.Have_Unicode():
-    simpletypes = simpletypes + (UnicodeType,)
+    simpletypes = simpletypes + (str,)
 datatypes = simpletypes+containers
-immutabletypes = simpletypes+(TupleType,)
+immutabletypes = simpletypes+(tuple,)
 
 class undef: pass
 
@@ -34,7 +34,7 @@ def isinstance_any(o, types):
 
 isContainer	 = lambda o: isinstance_any(o, containers)
 isSimpleType = lambda o: isinstance_any(o, simpletypes)
-isInstance	 = lambda o: type(o) is InstanceType
+isInstance	 = lambda o: type(o) is object
 isImmutable	 = lambda o: isinstance_any(o, immutabletypes)
 
 if gnosis.pyconfig.Have_ObjectClass():	
@@ -42,7 +42,7 @@ if gnosis.pyconfig.Have_ObjectClass():
                                 not type(o) in datatypes
 else:
     isNewStyleInstance = lambda o: 0
-isOldStyleInstance = lambda o: isinstance(o, ClassType)
+isOldStyleInstance = lambda o: isClass(o)
 isClass			= or_(isOldStyleInstance, isNewStyleInstance)
 
 if gnosis.pyconfig.Have_ObjectClass():
@@ -129,10 +129,10 @@ def setCoreData(o, data, force=0):
         new = o.__class__(data)
         attr_update(new, attr_dict(o))	# __slots__ safe attr_dict()
         o = new
-    elif isinstance(o, DictType):
+    elif isinstance(o, dict):
         o.clear()
         o.update(data)
-    elif isinstance(o, ListType):
+    elif isinstance(o, list):
         o[:] = data
     return o
 

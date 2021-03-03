@@ -183,7 +183,7 @@ class foomu(XMLP_Mutator):
     def __init__(self):
         XMLP_Mutator.__init__(self,type(foo()),'foomu')
 
-    # careful -- type(foo) == InstanceType == "everything" :-)
+    # careful -- type(foo) == object == "everything" :-)
     def wants_obj(self,obj):
         return obj.__class__ == foo
     

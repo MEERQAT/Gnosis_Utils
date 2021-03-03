@@ -2,7 +2,6 @@
 
 from gnosis.xml.pickle import loads,dumps
 from gnosis.xml.pickle.util import setInBody
-from types import StringType, UnicodeType
 from . import funcs
 
 funcs.set_parser()
@@ -25,9 +24,9 @@ xml = dumps(o)
 #print '------------* Restored attributes from different strings *--------------'
 o2 = loads(xml)
 # check types explicitly, since comparison will coerce types
-if not isinstance(o2.ustring,UnicodeType):
-    raise Exception("AAGH! Didn't get UnicodeType")
-if not isinstance(o2.pstring,StringType):
+if not isinstance(o2.ustring,str):
+    raise Exception("AAGH! Didn't get str")
+if not isinstance(o2.pstring,str):
     raise Exception("AAGH! Didn't get StringType for pstring")
 if not isinstance(o2.estring,StringType):
     raise Exception("AAGH! Didn't get StringType for estring")
@@ -49,11 +48,11 @@ xml = dumps(o)
 #print '------------* Restored attributes from different strings *--------------'
 o2 = loads(xml)
 # check types explicitly, since comparison will coerce types
-if not isinstance(o2.ustring,UnicodeType):
-    raise Exception("AAGH! Didn't get UnicodeType")
-if not isinstance(o2.pstring,StringType):
+if not isinstance(o2.ustring,str):
+    raise Exception("AAGH! Didn't get str")
+if not isinstance(o2.pstring,str):
     raise Exception("AAGH! Didn't get StringType for pstring")
-if not isinstance(o2.estring,StringType):
+if not isinstance(o2.estring,str):
     raise Exception("AAGH! Didn't get StringType for estring")
 
 #print "UNICODE:", `o2.ustring`, type(o2.ustring)
@@ -67,7 +66,7 @@ if o.ustring != o2.ustring or \
 
 #-- Pickle with Unicode strings in attributes (FAIL)
 #print '\n------------* Pickle with Unicode strings in XML attrs *----------------'
-setInBody(UnicodeType, 0)
+setInBody(str, 0)
 try:
     xml = dumps(o)
     raise Exception("FAIL: We should not be allowed to put Unicode in attrs")
