@@ -26,13 +26,6 @@ __all__ = ['usplit','is_legal_xml','is_legal_xml_char']
 
 import re
 
-# define True/False if this Python doesn't have them (only
-# used in this file)
-try:
-    a = True
-except:
-    True = 1
-    False = 0
 
 def usplit( uval ):
     """
