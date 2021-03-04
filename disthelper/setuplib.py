@@ -23,9 +23,9 @@ SWIG_c_ext = "c"
 SWIG_cpp_ext = "cxx"
 
 def run(cmd,ignore_err=0):
-    print "Command: ", cmd, ", cwd: ",os.getcwd()
+    print("Command: ", cmd, ", cwd: ",os.getcwd())
     if os.system(cmd) != 0 and not ignore_err:
-        print "ERROR"
+        print("ERROR")
         sys.exit(1)
 
 def fix_wrapper(file,modname):
@@ -33,7 +33,7 @@ def fix_wrapper(file,modname):
     if os.name == 'posix': # fix only required on win32
         return
 
-    print "Fixing %s ..." % file
+    print("Fixing %s ..." % file)
 
     fout = open(file,'at')
     # for some reason, SWIG is defining "init_modname", but python
@@ -61,7 +61,7 @@ def gen_swig(swig_obj,swig_prog,wrap_ext,swig_opts):
            mtime(hfile) > mtime(wrapfile) or \
            mtime(ifile) > mtime(wrapfile):
 
-        print "Creating %s & %s" % (pyfile,wrapfile)
+        print("Creating %s & %s" % (pyfile,wrapfile))
         run('%s %s %s' % (swig_prog,swig_opts,ifile))
         fix_wrapper(wrapfile,basename)
             
@@ -81,7 +81,7 @@ def gen_all_swigs(swig_exe, modlist):
         elif isinstance(mod, CPP_SWIG):
             gen_cpp_swig(swig_exe, mod)
         else:
-            print "********* UNKNOWN SWIG TYPE *************"
+            print("********* UNKNOWN SWIG TYPE *************")
             raise Exception()
 
 def clean_all_swigs(modlist):
@@ -92,7 +92,7 @@ def clean_all_swigs(modlist):
                      '%s_wrap.%s' % (mod.swig_basename,SWIG_cpp_ext)]:
             
             if os.path.isfile(name):
-                print 'del %s' % name
+                print('del %s' % name)
                 unlink(name)
 
 def clean_all(ext_list, extra_patt=[]):
@@ -176,10 +176,10 @@ try:
 except: HAVE_TAR = 0
 
 def _error_no_zip():
-    print "** Sorry, this version of Python cannot create .zip files."
+    print("** Sorry, this version of Python cannot create .zip files.")
 
 def _error_no_tar():
-    print "** Sorry, this version of Python cannot create .tar files."
+    print("** Sorry, this version of Python cannot create .tar files.")
     
 class zip_tree(TreeOps):
     "Worker class for 'zip -r' functionality."

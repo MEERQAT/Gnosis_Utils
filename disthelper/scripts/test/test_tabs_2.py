@@ -9,7 +9,7 @@ def test_untabify( txt_tabbed, txt_untabbed ):
     if buf != txt_untabbed:
         raise Exception("untabify FAILED")
     else:
-        print "untabify: OK"
+        print("untabify: OK")
 
 def test_tabify( txt_untabbed, txt_tabbed ):
     open('a.txt','wb').write(txt_untabbed)
@@ -20,7 +20,7 @@ def test_tabify( txt_untabbed, txt_tabbed ):
     if buf != txt_tabbed:
         raise Exception("tabify FAILED")
     else:
-        print "tabify: OK"		
+        print("tabify: OK")		
 
 
 untabbed_1 = """

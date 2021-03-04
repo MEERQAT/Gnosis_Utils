@@ -281,7 +281,7 @@ THE MAGIC OF INTROSPECTION
       def lex():
           for t in caller_dict['tokens']:
               t_obj = caller_dict['t_'+t]
-              if type(t_obj) is FunctionType:
+              if type(t_obj) is function:
                   print t, '=', t_obj.__doc__
               else:
                   print t, '=', t_obj

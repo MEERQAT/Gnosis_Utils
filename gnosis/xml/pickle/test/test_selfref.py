@@ -6,8 +6,8 @@ import gnosis.xml.pickle as xml_pickle
 import random, re, sys
 from gnosis.xml.pickle.ext import XMLP_Mutator, XMLP_Mutated
 import gnosis.xml.pickle.ext as mutate
-from UserList import UserList
-import funcs
+from collections import UserList
+from . import funcs
 
 funcs.set_parser()
     
@@ -26,7 +26,7 @@ g = xml_pickle.loads(x)
 #print g
 # check values & ref
 if g[0] != l[0] or g[1] != l[1] or id(g[2]) != id(g):
-    raise "ERROR(1)"
+    raise Exception("ERROR(1)")
 
 d = {'a':1}
 d['b'] = d
@@ -37,7 +37,7 @@ g = xml_pickle.loads(x)
 #print g
 # check values & ref
 if g['a'] != 1 or id(g['b']) != id(g):
-    raise "ERROR(2)"
+    raise Exception("ERROR(2)")
 
 # pickle builtins as toplevel objects (the self-ref is actually
 # inside the wrapper for these cases)
@@ -51,7 +51,7 @@ for o in bltin_objs:
     o2 = xml_pickle.loads(x)
 
     if o != o2:
-        raise "ERROR(3)"
+        raise Exception("ERROR(3)")
     
 ##s = "abc"
 ##x = xml_pickle.dumps(s)
@@ -60,7 +60,7 @@ for o in bltin_objs:
 ##g = xml_pickle.loads(x)
 ###print g
 ##if g != s:
-##	raise "ERROR(3)"
+##	raise Exception("ERROR(3)")
 
 ##s = 123
 ##x = xml_pickle.dumps(s)
@@ -69,7 +69,7 @@ for o in bltin_objs:
 ##g = xml_pickle.loads(x)
 ###print g
 ##if g != s:
-##	raise "ERROR(4)"
+##	raise Exception("ERROR(4)")
 
 ##s = 123.45
 ##x = xml_pickle.dumps(s)
@@ -117,7 +117,7 @@ x = xml_pickle.dumps(r)
 g = xml_pickle.loads(x)
 #print g.pattern
 if r.pattern != g.pattern:
-    raise "ERROR(4)"
+    raise Exception("ERROR(4)")
 
 # now, pickle the same objects as first-level attributes,
 # just to sanity-check that we didn't break anything
@@ -129,7 +129,7 @@ for o in bltin_objs:
     g = xml_pickle.loads(x)
 
     if g.s != f.s:
-        raise "ERROR(5)"
+        raise Exception("ERROR(5)")
     
 ##f = foo()
 
@@ -174,7 +174,7 @@ x = xml_pickle.dumps(f)
 g = xml_pickle.loads(x)
 #print g.s.pattern
 if f.s.pattern != g.s.pattern:
-    raise "ERROR(6)"
+    raise Exception("ERROR(6)")
 
 # show that toplevel classes get mutated too
 
@@ -183,7 +183,7 @@ class foomu(XMLP_Mutator):
     def __init__(self):
         XMLP_Mutator.__init__(self,type(foo()),'foomu')
 
-    # careful -- type(foo) == InstanceType == "everything" :-)
+    # careful -- type(foo) == object == "everything" :-)
     def wants_obj(self,obj):
         return obj.__class__ == foo
     
@@ -207,7 +207,7 @@ x = xml_pickle.dumps(f)
 g = xml_pickle.loads(x)
 #print g.a,g.b
 if g.__class__ != foo or g.a != f.a or g.b != f.b:
-    raise "ERROR(7)"
+    raise Exception("ERROR(7)")
 
 mutate.remove_mutator(my)
 
@@ -239,7 +239,7 @@ o2 = xml_pickle.loads(s)
 
 # check ref
 if id(o2) != id(o2.parent):
-    raise "ERROR(8)"	
+    raise Exception("ERROR(8)")
 
 #
 # from a bug report sent by Wolfgang Feix <wolfgang.feix@lagosoft.de>
@@ -267,6 +267,6 @@ p = xml_pickle.loads(s)
 
 if [x.x,x.y.x,x.y.z.x,x.y.z.__parent__.x] != \
    [p.x,p.y.x,p.y.z.x,p.y.z.__parent__.x]:
-    raise "ERROR(9)"
+    raise Exception("ERROR(9)")
 
-print "** OK **"
+print("** OK **")

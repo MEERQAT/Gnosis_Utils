@@ -9,7 +9,7 @@ __all__ = ['guess_indentation','has_tab_space_mixing']
 # make sure I can import disthelper
 import sys
 sys.path.insert(0,'.')
-import grab_disthelper
+from . import grab_disthelper
 
 from tokenize import tokenize, INDENT, ERRORTOKEN
 
@@ -170,7 +170,7 @@ class TreeChecker(TreeOps):
         opts,args = p.parse_argv(argv)
 
         if len(args) == 0:
-            print "** Must give a directory and/or file to check."
+            print("** Must give a directory and/or file to check.")
             p.show_usage()
             sys.exit(1)
             
@@ -183,14 +183,14 @@ class TreeChecker(TreeOps):
 
         # tell user which files/dirs I couldn't access
         if len(self.nofile):
-            print "I could not access these files:"
+            print("I could not access these files:")
             for f in self.nofile:
-                print "  %s" % f
+                print("  %s" % f)
 
         if len(self.nodir):
-            print "I could not access these directories:"
+            print("I could not access these directories:")
             for d in self.nodir:
-                print "  %s" % d
+                print("  %s" % d)
     
     # - internal API - called as the tree is walked -
     def process_one_file(self,fullname,opts):
@@ -202,12 +202,12 @@ class TreeChecker(TreeOps):
             if not opts.verbose:
                 s += ' (use -v for details)'
 
-            print s
+            print(s)
 
         if opts.verbose and len(errs):
-            print "Bad lines are shown below:"
+            print("Bad lines are shown below:")
             for line in errs:
-                print '    '+line		
+                print('    '+line)		
         
     def process_one_dir(self,fullname):
         pass

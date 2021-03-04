@@ -6,7 +6,7 @@ Note: python-2.0 lacks random, so I need another testcase for completeness
 import gnosis.xml.pickle as xml_pickle
 import sys, random, pickle
 from gnosis.xml.pickle.util import setParanoia
-import funcs
+from . import funcs
 
 funcs.set_parser()
 
@@ -66,7 +66,7 @@ p4 = g.d['Two'].random()
 #print p1,p2,p3,p4
 
 if t1!=p1 or t2!=p2 or t3!=p3 or t4!=p4:
-    raise "ERROR(1)"
+    raise Exception("ERROR(1)")
 
 #print t1, t2, t3, t4
 p1 = h.r.random()
@@ -77,8 +77,8 @@ p4 = h.d['Two'].random()
 #print p1,p2,p3,p4
 
 if t1!=p1 or t2!=p2 or t3!=p3 or t4!=p4:
-    raise "ERROR(2)"
+    raise Exception("ERROR(2)")
 
-print "** OK **"
+print("** OK **")
 
 

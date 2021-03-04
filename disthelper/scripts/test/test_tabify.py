@@ -14,7 +14,7 @@ def test_untabify( txt_tabbed, txt_untabbed ):
     if buf != txt_untabbed:
         raise Exception("untabify FAILED")
     else:
-        print "untabify: OK"
+        print("untabify: OK")
 
 def test_tabify( txt_untabbed, txt_tabbed ):
     open('a.txt','wb').write(txt_untabbed)
@@ -25,7 +25,7 @@ def test_tabify( txt_untabbed, txt_tabbed ):
     if buf != txt_tabbed:
         raise Exception("tabify FAILED")
     else:
-        print "tabify: OK"		
+        print("tabify: OK")		
 
 # test 1
 tabbed_text_1 = """
@@ -89,15 +89,15 @@ def foo( a, b, c ):
 """
 
 
-print tabbed_text_1
+print(tabbed_text_1)
 test_untabify(tabbed_text_1,untabbed_text_1)
 test_tabify(untabbed_text_1,tabbed_text_1)
 
-print tabbed_text_2
+print(tabbed_text_2)
 test_untabify(tabbed_text_2,untabbed_text_2)
 test_tabify(untabbed_text_2,tabbed_text_2)
 
-print tabbed_text_3
+print(tabbed_text_3)
 test_untabify(tabbed_text_3,untabbed_text_3)
 test_tabify(untabbed_text_3,tabbed_text_3)
 

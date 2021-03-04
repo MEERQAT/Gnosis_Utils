@@ -35,9 +35,9 @@ distutils.ccompiler.compiler_class['cyg4win32'] = \
                                                  'Customized "cygwin -mno-cygwin"')
 
 def run(cmd,ignore_err=0):
-    print "Command: ", cmd, ", cwd: ",os.getcwd()
+    print("Command: ", cmd, ", cwd: ",os.getcwd())
     if os.system(cmd) != 0 and not ignore_err:
-        print "ERROR"
+        print("ERROR")
         sys.exit(1)
         
 def mtime(file):
@@ -48,7 +48,7 @@ def fix_wrapper(file,modname):
     if os.name == 'posix': # fix only required on win32
         return
 
-    print "Fixing %s ..." % file
+    print("Fixing %s ..." % file)
 
     fout = open(file,'at')
     # for some reason, SWIG is defining "init_modname", but python
@@ -74,7 +74,7 @@ def gen_swig(basename,swig_prog,wrap_ext,swig_opts):
            mtime(hfile) > mtime(wrapfile) or \
            mtime(ifile) > mtime(wrapfile):
 
-        print "Creating %s & %s" % (pyfile,wrapfile)
+        print("Creating %s & %s" % (pyfile,wrapfile))
         run('%s %s %s' % (swig_prog,swig_opts,ifile))
         fix_wrapper(wrapfile,basename)
             
@@ -164,7 +164,7 @@ def copy_libs_to_cwd(modlist):
 
     g = glob(g_patt)
     if len(g) != 1:
-        print "Can't find libdir!"
+        print("Can't find libdir!")
         sys.exit(1)
 
     for mod in modlist:
@@ -174,7 +174,7 @@ def copy_libs_to_cwd(modlist):
             cmd = "cp %s/%s.so _%s.so" %(g[0],mod,mod)
         else:
             cmd = "copy %s\\%s.pyd _%s.pyd" %(g[0],mod,mod)		
-        print cmd
+        print(cmd)
         run(cmd)
 
 if 'build' in sys.argv:
@@ -187,10 +187,10 @@ if 'build' in sys.argv:
     #copy_libs_to_cwd(C_MODS+CPP_MODS)
     
 elif 'info' in sys.argv:
-    print "Installed programs:"
+    print("Installed programs:")
 
-    print "  SWIG = %s" % SWIG_PROG
-    print distutils.ccompiler.new_compiler(compiler='mingw32')
+    print("  SWIG = %s" % SWIG_PROG)
+    print(distutils.ccompiler.new_compiler(compiler='mingw32'))
     
     
 elif 'clean' in sys.argv:

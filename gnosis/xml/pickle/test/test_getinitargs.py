@@ -6,9 +6,9 @@ __getstate__ and __getinitargs__ --fpm
 
 import pickle
 import gnosis.xml.pickle as xml_pickle
-import funcs
+from . import funcs
 from copy import copy
-from UserList import UserList
+from collections import UserList
 
 funcs.set_parser()
 xml_pickle.setParanoia(0)
@@ -29,8 +29,8 @@ class Foo:
 
         # test: unpickler should NOT restore any
         # attributes before __init__ is called
-        if len(self.__dict__.keys()) != 0:
-            raise "ERROR -- attrs shouldn't exist before __init__"
+        if len(list(self.__dict__.keys())) != 0:
+            raise Exception("ERROR -- attrs shouldn't exist before __init__")
 
         # .a and .b assignments have no effect when unpickling.
         # since those values were pickled, the unpickler will
@@ -75,7 +75,7 @@ def check_foo(o1,o2,NR):
            o1.a != o2.a or o1.b != o2.b or \
            o2.c != o1.__getinitargs__()[2] or \
            o2.d != o1.__getinitargs__()[3]:
-        raise "ERROR(%d)" % NR
+        raise Exception("ERROR(%d)" % NR)
     
 x = Foo(1,'abc',[1,2,3],('a','b','c'))
 
@@ -99,7 +99,7 @@ check_foo(x, x3, 2)
 # 1 __init__ per loads(), plus original object = 3
 # 1 __getinitargs__ per dumps(), plus 2 extra calls per test = 6
 if COUNT_INIT != 3 or COUNT_GETARGS != 6:
-    raise "ERROR(3)"
+    raise Exception("ERROR(3)")
 
 # do a multilevel object to test all three cases
 # (toplevel, attr, item)
@@ -123,4 +123,4 @@ check_foo( f.x, o.x, 5 )
 check_foo( f.y[3], o.y[3], 5 )
 check_foo( f.z[3][2], o.z[3][2], 6 )
 
-print "** OK **"
+print("** OK **")

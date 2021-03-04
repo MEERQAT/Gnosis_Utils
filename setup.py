@@ -51,11 +51,11 @@ import gnosis.pyconfig
 # (probably means that pyexpat wasn't built)
 def is_DOM_okay():
     s = '<?xml version="1.0"?><P hello="1"></P>'
-    import StringIO
+    import io
     try:
         from xml.dom import minidom
         # test 1: will it parse at all?
-        doc = minidom.parse(StringIO.StringIO(s))
+        doc = minidom.parse(io.StringIO(s))
         # test 2: does getAttribute on non-existant nodes crash?
         # (xml.pickle DOM parser assumes this returns '')
         a = doc.firstChild.getAttribute('bogus')
@@ -65,7 +65,7 @@ def is_DOM_okay():
         return 0
 
 def remake_MANIFEST():
-    print "Creating MANIFEST ..."
+    print("Creating MANIFEST ...")
     
     # create empty MANIFEST
     unlink('MANIFEST')
@@ -85,7 +85,7 @@ def ensure_at_toplevel():
     files = ['gnosis','MANIFEST','disthelper']
     for file in files:
         if not os.path.exists(file):
-            print "*** Hey, you're supposed to run this from the toplevel."
+            print("*** Hey, you're supposed to run this from the toplevel.")
             sys.exit(1)
 
 # just check globally for now
@@ -188,10 +188,10 @@ def do_setup():
             kwargs['licence'] = kwargs['license']
             del kwargs['license']
             
-        apply(setup,[],kwargs)
+        setup(*[], **kwargs)
         rval = 1		
-    except Exception,exc:
-        print "*** ERROR: %s" % str(exc)
+    except Exception as exc:
+        print("*** ERROR: %s" % str(exc))
         rval = 0
 
     del gnosis.version
@@ -208,7 +208,7 @@ def copy_extra_files():
     destroot = glob(os.path.join('build','lib'))[0]
 
     # go through MANIFEST to see what is supposed to be under build directory
-    print "Copying extra files to %s ..." % destroot
+    print("Copying extra files to %s ..." % destroot)
 
     f = open('MANIFEST','r')
     for srcfile in f.readlines():
@@ -233,26 +233,26 @@ def copy_extra_files():
 if len(sys.argv) < 2:
     import gnosis.version # import only when needed!
     
-    print "\nGnosis Utilities %s installation." % gnosis.version.VSTRING
-    print ""
-    print "Usage:"
-    print ""
-    print "		# Install, for a single version of Python"
-    print "		python setup.py install"
-    print ""
-    print "		# Install for ALL Python versions on this machine"
-    print "		python setup.py install_all"
-    print ""
-    print "** Maintainer commands **"
-    print ""
-    print "		# create source distribution (in dist/)"
-    print "		python setup.py makedist"
-    print ""
-    print "		# clean out junk files"
-    print "		python setup.py clean"
-    print ""
-    print "** DO NOT run any other distutils commands **"
-    print ""
+    print("\nGnosis Utilities %s installation." % gnosis.version.VSTRING)
+    print("")
+    print("Usage:")
+    print("")
+    print("		# Install, for a single version of Python")
+    print("		python setup.py install")
+    print("")
+    print("		# Install for ALL Python versions on this machine")
+    print("		python setup.py install_all")
+    print("")
+    print("** Maintainer commands **")
+    print("")
+    print("		# create source distribution (in dist/)")
+    print("		python setup.py makedist")
+    print("")
+    print("		# clean out junk files")
+    print("		python setup.py clean")
+    print("")
+    print("** DO NOT run any other distutils commands **")
+    print("")
 
     del gnosis.version
     
@@ -266,7 +266,7 @@ if 'build' in sys.argv:
     # fall through to do_setup() below
     
 if 'clean' in sys.argv:
-    print "Cleaning tree ..."
+    print("Cleaning tree ...")
     
     # remove .pyc, *~, coredumps, .md5envelope files
     patts = "*.pyc,*~,core,*.md5envelope"
@@ -302,13 +302,13 @@ if 'formatdist' in sys.argv:
     "Format files for distribution."
     
     # convert tabs to spaces in all .py files to be politically correct :-)
-    print "Untabifying tree ..."
+    print("Untabifying tree ...")
     os.system('%s disthelper/scripts/untabtree.py -w 4 -x py -r .' % \
               sys.executable)
 
     # put sources in unix textfile format (\n), so auto-conversion
     # to platform format works (in setup.py)
-    print "Converting text format ..."
+    print("Converting text format ...")
     os.system('%s disthelper/scripts/porttext.py -x py -r .' % sys.executable)
 
     sys.exit(0)
@@ -343,22 +343,22 @@ if 'makedist' in sys.argv:
                                      gnosis.version.VSTRING))
 
     if not os.path.isdir(rawdir):
-        print "*****************************************"
-        print "* AACK! Where is sdist rawdir?"
-        print "*****************************************"
-        raise "Punt"
+        print("*****************************************")
+        print("* AACK! Where is sdist rawdir?")
+        print("*****************************************")
+        raise Exception("Punt")
     
     buf = open(os.path.join(rawdir,'PKG-INFO'),'r').read()
     del gnosis.version
     
     open('PKG-INFO','w').write(buf)
 
-    print "Deleting %s" % rawdir
+    print("Deleting %s" % rawdir)
     rmtree( rawdir )
 
     # start clean again ... (sdist has same name as the .tgz
     # I'm going to create!)
-    print "Deleting dist/"	
+    print("Deleting dist/")	
     rmtree('dist')
     
     # create dist (which *includes* MANIFEST just created)
@@ -382,17 +382,17 @@ if 'master' in sys.argv:
     
     # .zip file
     zipname = os.path.join(tempdir,'Gnosis_Utils-%s.zip' % myver)
-    print "Creating %s ..." % os.path.basename(zipname)
+    print("Creating %s ..." % os.path.basename(zipname))
     zip_current_dir( zipname, 'Gnosis_Utils-%s' % myver, excludes )
 
     # .tar.gz
     targz_name = os.path.join(tempdir,'Gnosis_Utils-%s.tar.gz' % myver)
-    print "Creating %s ..." % os.path.basename(targz_name)
+    print("Creating %s ..." % os.path.basename(targz_name))
     tar_gz_current_dir( targz_name, 'Gnosis_Utils-%s' % myver, excludes )
 
     # .tar.bz2
     tarbz2_name = os.path.join(tempdir,'Gnosis_Utils-%s.tar.bz2' % myver)
-    print "Creating %s ..." % os.path.basename(tarbz2_name)
+    print("Creating %s ..." % os.path.basename(tarbz2_name))
     tar_bz2_current_dir( tarbz2_name, 'Gnosis_Utils-%s' % myver, excludes )
 
     # place in dist/
@@ -436,32 +436,32 @@ if 'install_all' in sys.argv:
         else:
             args = args + ' ' + arg + ' '
             
-    print "Searching for all installed Pythons ..."
+    print("Searching for all installed Pythons ...")
     
     pylist = get_python_verlist()
 
     for exe,info in pylist:
-        print '%s %s' % (exe,args)
+        print('%s %s' % (exe,args))
         os.system('%s %s' % (exe,args))		
     
     sys.exit(0)
     
 if do_setup() != 1:
-    print "** ERROR: setup() failed"
+    print("** ERROR: setup() failed")
     sys.exit(1)
 
 if 'build' in sys.argv:
     copy_extra_files()
 
 if not is_DOM_okay():
-    print ""
-    print "** WARNING: xml.dom.minidom is not working."
-    print "**		Some portions of the package will not work."
-    print "**		If you are using Python 2.0, you should install PyXML:"
-    print "**			http://pyxml.sourceforge.net/topics/download.html"
-    print ""
+    print("")
+    print("** WARNING: xml.dom.minidom is not working.")
+    print("**		Some portions of the package will not work.")
+    print("**		If you are using Python 2.0, you should install PyXML:")
+    print("**			http://pyxml.sourceforge.net/topics/download.html")
+    print("")
 elif 'install' in sys.argv:
-    print "\n*** Gnosis_Utils - Installed OK ***\n"
+    print("\n*** Gnosis_Utils - Installed OK ***\n")
 
     
     

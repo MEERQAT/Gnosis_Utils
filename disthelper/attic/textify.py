@@ -80,7 +80,7 @@ def transform_thing( thing, opts, regexlist ):
         transform_tree( lineops, root, regexlist )
 
     else:
-        raise "Unable to transform '%s'" % thing
+        raise Exception("Unable to transform '%s'" % thing)
             
 def transform_tree( lineops, root, regexlist=[] ):
     """Run list of transforms (lineops) on a directory
@@ -176,7 +176,7 @@ reflags = 0
 if opts.nocase:
     reflags = re.I
     
-globlist = map(lambda x: re.compile(x,reflags), globlist)
+globlist = [re.compile(x,reflags) for x in globlist]
 
 # set user-selected tabwidth
 TABWIDTH = opts.tabwidth

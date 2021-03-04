@@ -8,40 +8,40 @@ import gnosis.xml.pickle.util as util
 from gnosis.xml.pickle.ext import XMLP_Mutator, XMLP_Mutated
 from types import *
 import sys
-from UserList import UserList
-import funcs
+from collections import UserList
+from . import funcs
 
 funcs.set_parser()
     
 class mystring(XMLP_Mutator):
 
     def mutate(self,obj):
-        print "** mystring.mutate()"
+        print("** mystring.mutate()")
         return XMLP_Mutated(obj)
 
     def unmutate(self,mobj):
-        print "** mystring.unmutate()"
+        print("** mystring.unmutate()")
         return mobj.obj
     
 # test1 -- use our custom handler to pickle & unpickle
 # (here we fold two types to a single tagname)
 
-print "*** TEST 1 ***"
-my1 = mystring(StringType,"MyString",in_body=1)
-my2 = mystring(UnicodeType,"MyString",in_body=1)
+print("*** TEST 1 ***")
+my1 = mystring(str,"MyString",in_body=1)
+my2 = mystring(str,"MyString",in_body=1)
 
 mutate.add_mutator(my1)
 mutate.add_mutator(my2)
 
 u = UserList(['aaa','bbb','ccc'])
-print u
+print(u)
 
 x = xml_pickle.dumps(u)
-print x
+print(x)
 del u
 
 z = xml_pickle.loads(x)
-print z
+print(z)
 
 # remove custom mutators
 mutate.remove_mutator(my1)
@@ -55,19 +55,19 @@ mutate.remove_mutator(my2)
 # (put text in body, even though builtin puts it in
 # the value= ... just to show that builtin can find it either way)
 
-print "*** TEST 2 ***"
+print("*** TEST 2 ***")
 
-my1 = mystring(StringType,"string",in_body=1)
-my2 = mystring(UnicodeType,"string",in_body=1)
+my1 = mystring(str,"string",in_body=1)
+my2 = mystring(str,"string",in_body=1)
 
 mutate.add_mutator(my1)
 mutate.add_mutator(my2)
 
 u = UserList(['aaa','bbb','ccc'])
-print u
+print(u)
 
 x = xml_pickle.dumps(u)
-print x
+print(x)
 del u
 
 # remove custom mutators before unpickling
@@ -76,7 +76,7 @@ mutate.remove_mutator(my2)
 
 # now the builtin is doing the unpickling
 z = xml_pickle.loads(x)
-print z
+print(z)
 
 # test 3
 #
@@ -86,14 +86,14 @@ print z
 # mynumlist handles lists of integers and pickles them as "n,n,n,n"
 # mycharlist does the same for single-char strings
 #
-# otherwise, the ListType builtin handles the list
+# otherwise, the list builtin handles the list
 
 class mynumlist(XMLP_Mutator):
 
     def wants_obj(self,obj):
         # I only want lists of integers
         for i in obj:
-            if type(i) is not IntType:
+            if type(i) is not int:
                 return 0
 
         return 1
@@ -105,7 +105,7 @@ class mynumlist(XMLP_Mutator):
         return XMLP_Mutated(t)
 
     def unmutate(self,mobj):
-        l = map(int,mobj.obj.split(','))
+        l = list(map(int,mobj.obj.split(',')))
         return l
 
 class mycharlist(XMLP_Mutator):
@@ -133,22 +133,22 @@ class mycharlist(XMLP_Mutator):
 # we "explode" one type to multiple tags, so we can
 # make different XML representations based on object content
 
-print "*** TEST 3 ***"
+print("*** TEST 3 ***")
 
-my1 = mynumlist(ListType,"NumList",in_body=1)
-my2 = mycharlist(ListType,"CharList",in_body=1)
+my1 = mynumlist(list,"NumList",in_body=1)
+my2 = mycharlist(list,"CharList",in_body=1)
 
 mutate.add_mutator(my1)
 mutate.add_mutator(my2)
 
 u = UserList([[1,2,3],['mmm','nnn','ooo'],['a','b','c'],[4.1,5.2,6.3]])
-print u
+print(u)
 x = xml_pickle.dumps(u)
-print x
+print(x)
 del u
 
 g = xml_pickle.loads(x)
-print g
+print(g)
 
 # remove custom mutators
 mutate.remove_mutator(my1)
@@ -174,7 +174,7 @@ class mutate_userlist(XMLP_Mutator):
     def __init__(self):
         XMLP_Mutator.__init__(self,type(UserList()),'userlist')
 
-    # type(UserList()) should be InstanceType, which is
+    # type(UserList()) should be object, which is
     # pretty generic, so we have to be careful and check
     # that the obj is a UserList (or derived)
     def wants_obj(self,obj):
@@ -193,7 +193,7 @@ class mutate_userlist(XMLP_Mutator):
                                          xml_pickle.getParanoia())		
         return klass(mobj.obj)
 
-print "*** TEST 4 ***"
+print("*** TEST 4 ***")
 
 xml_pickle.setParanoia(0) # let xml_pickle use our namespace
 
@@ -210,18 +210,18 @@ f.u = UserList([1,2,3,4])
 f.m = mylist([5,6,7,8])
 f.z = zlist([9,10,11,12])
 
-print f.u.__class__, f.u
-print f.m.__class__, f.m
-print f.z.__class__, f.z
+print(f.u.__class__, f.u)
+print(f.m.__class__, f.m)
+print(f.z.__class__, f.z)
 
 x = xml_pickle.dumps(f)
-print x
+print(x)
 del f
 
 g = xml_pickle.loads(x)
-print g.u.__class__, g.u
-print g.m.__class__, g.m
-print g.z.__class__, g.z
+print(g.u.__class__, g.u)
+print(g.m.__class__, g.m)
+print(g.z.__class__, g.z)
 
 mutate.remove_mutator(my1)
 
@@ -257,7 +257,7 @@ class mutate_multidim(XMLP_Mutator):
         lines = text.split('\n')
         list = []
         for line in lines:
-            a = map(float,line.split())
+            a = list(map(float,line.split()))
             if len(a):
                 list.append(a)
 
@@ -272,14 +272,14 @@ f = foo()
 
 f.a = Numeric.array([[1,2,3,4],[5,6,7,8],[9,10,11,12]],'f')
 
-print "ORIG: ",f.a
+print("ORIG: ",f.a)
 
 x = xml_pickle.dumps(f)
-print x
+print(x)
 del f
 
 g = xml_pickle.loads(x)
-print "COPY: ",g.a
+print("COPY: ",g.a)
 
 mutate.remove_mutator(my1)
 
@@ -326,8 +326,8 @@ class mutate_mxdatetime(XMLP_Mutator):
         # return apply(mx.DateTime.DateTime,map(float,m1.groups())+
         #	 	 map(float,m2.groups()))
 
-        return apply(mx.DateTime.DateTime,map(int,m1.groups())+
-                     map(int,m2.groups()[:2])+[float(m2.group(3))])
+        return mx.DateTime.DateTime(*list(map(int,m1.groups()))+
+                     list(map(int,m2.groups()[:2]))+[float(m2.group(3))])
 
 my1 = mutate_mxdatetime()
 mutate.add_mutator(my1)
@@ -336,13 +336,13 @@ f = foo()
 
 f.a = mx.DateTime.now()
 
-print "ORIG: ",f.a
+print("ORIG: ",f.a)
 
 x = xml_pickle.dumps(f)
-print x
+print(x)
 del f
 
 g = xml_pickle.loads(x)
-print "COPY: ",g.a
+print("COPY: ",g.a)
 
 mutate.remove_mutator(my1)

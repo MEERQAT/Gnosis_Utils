@@ -4,9 +4,9 @@
 #
 
 import pickle
-import test_ftypes_i
+from . import test_ftypes_i
 import gnosis.xml.pickle as xml_pickle
-import funcs
+from . import funcs
 
 funcs.set_parser()
 
@@ -32,7 +32,7 @@ g = xml_pickle.loads(x)
 # check it
 for attr in ['b','p','f']:
     if getattr(f,attr) != getattr(g,attr):
-        raise "ERROR(1)"
+        raise Exception("ERROR(1)")
 
-print "** OK **"
+print("** OK **")
 

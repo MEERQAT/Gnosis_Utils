@@ -10,7 +10,7 @@
 # make sure I can import disthelper
 import sys
 sys.path.insert(0,'.')
-import grab_disthelper
+from . import grab_disthelper
 
 # now the real code begins ...
 

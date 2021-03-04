@@ -4,8 +4,7 @@ Please see the information at gnosis.xml.objectify.doc for
 explanation of usage, design, license, and other details
 """
 
-from types import *
-from cStringIO import StringIO
+from io import StringIO
 from copy import deepcopy
 
 #-- Node types are now class constants defined in class Node.
@@ -24,8 +23,8 @@ except:
 KEEP_CONTAINERS = 0
 ALWAYS, MAYBE, NEVER = (1,0,-1)
 def keep_containers(val=None):
+    global KEEP_CONTAINERS
     if val is not None:
-        global KEEP_CONTAINERS
         KEEP_CONTAINERS = val
     return KEEP_CONTAINERS
 
@@ -43,10 +42,10 @@ def content(o):
     return o._seq or []
 def children(o):
     "The child nodes (not PCDATA) of o"
-    return [x for x in content(o) if type(x) not in StringTypes]
+    return [x for x in content(o) if type(x) not in [str]]
 def text(o):
     "List of textual children"
-    return [x for x in content(o) if type(x) in StringTypes]
+    return [x for x in content(o) if type(x) in [str]]
 def dumps(o):
     "The PCDATA in o (preserves whitespace)"
     return "".join(text(o))
@@ -58,12 +57,11 @@ def tagname(o):
     return o.__class__.__name__.replace('_XO_','')
 def attributes(o):
     "List of (XML) attributes of o"
-    return [(k,v) for k,v in o.__dict__.items()
-                  if k!='PCDATA' and type(v) in StringTypes]
+    return [(k,v) for k,v in list(o.__dict__.items())
+                  if k!='PCDATA' and type(v) in [str]]
 
 #-- Base class for objectified XML nodes
-class _XO_:
-    __metaclass__ = type
+class _XO_(metaclass=type):
     def __getitem__(self, key):
         if key == 0:
             return self
@@ -95,7 +93,7 @@ def _makeAttrDict(attr):
     if not attr:
         return {}
     try:
-        attr.has_key('dummy')
+        'dummy' in attr
     except AttributeError:
         # assume a W3C NamedNodeMap
         attr_dict = {}
@@ -116,23 +114,22 @@ class XML_Objectify:
                             or hasattr(xml_src,'childNodes')):
             self._dom = xml_src
             self._fh = None
-        elif type(xml_src) in (StringType, UnicodeType):
+        elif type(xml_src) in (str):
             if xml_src[0]=='<':     # looks like XML
-                from cStringIO import StringIO
+                from io import StringIO
                 self._fh = StringIO(xml_src)
             else:                   # looks like filename
                 self._fh = open(xml_src,'rb')
         elif hasattr(xml_src,'read'):
             self._fh = xml_src
         else:
-            raise ValueError, \
-                  "XML_Objectify must be initialized with " +\
-                  "a filename, file-like object, or DOM object"
+            raise ValueError("XML_Objectify must be initialized with " +\
+                  "a filename, file-like object, or DOM object")
 
         # First parsing option:  EXPAT (stream based)
         if self._parser == EXPAT:
             if not EXPAT:
-                raise ImportError, "Expat parser not available"
+                raise ImportError("Expat parser not available")
             if ExpatFactory not in self.__class__.__bases__:
                 self.__class__.__bases__ += (ExpatFactory,)
             ExpatFactory.__init__(self,
@@ -152,8 +149,7 @@ class XML_Objectify:
             self._PyObject = pyobj_from_dom(self._dom)
 
         else:
-            raise ValueError, \
-                  "An invalid parser was specified: %s" % self._parser
+            raise ValueError("An invalid parser was specified: %s" % self._parser)
 
     def make_instance(self):
         if self._parser == EXPAT:
@@ -190,7 +186,7 @@ class ExpatFactory:
         self._myparser.ParseFile(file)
         return self._root
 
-    def Parse(self, data, isfinal=1):
+    def Parse(self, data, isfinal=True):
         self._myparser.returns_unicode = self.returns_unicode
         self._myparser.Parse(data, isfinal)
         return self._root
@@ -210,7 +206,7 @@ class ExpatFactory:
         # Does our current object have a child of this type already?
         if hasattr(self._current, pyname):
             # Convert a single child object into a list of children
-            if type(getattr(self._current, pyname)) is not ListType:
+            if type(getattr(self._current, pyname)) is not list:
                 setattr(self._current, pyname, [getattr(self._current, pyname)])
             # Add the new subtag to the list of children
             getattr(self._current, pyname).append(py_obj)
@@ -237,7 +233,7 @@ class ExpatFactory:
         # Add the PCDATA to the parent's sequence
         # (XXX: more efficient mechanism is desirable.  intern()? slices?)
         if getattr(self._current, '_seq', None):
-            if isinstance(self._current._seq[-1], unicode):
+            if isinstance(self._current._seq[-1], str):
                 self._current._seq[-1] += data
             else:
                 self._current._seq.append(data)
@@ -259,7 +255,7 @@ def pyobj_from_dom(dom_node):
     attr_dict = _makeAttrDict(dom_node.attributes)
     if attr_dict is None:
         attr_dict = {}
-    for key in attr_dict.keys():
+    for key in list(attr_dict.keys()):
         setattr(py_obj, py_name(key), attr_dict[key].value)
 
     # for nodes with character markup, might want the literal XML
@@ -290,7 +286,7 @@ def pyobj_from_dom(dom_node):
         # does a py_obj attribute corresponding to the subtag already exist?
         elif hasattr(py_obj, node_name):
             # convert a single child object into a list of children
-            if type(getattr(py_obj, node_name)) is not ListType:
+            if type(getattr(py_obj, node_name)) is not list:
                 setattr(py_obj, node_name, [getattr(py_obj, node_name)])
             # add the new subtag to the list of children
             getattr(py_obj, node_name).append(pyobj_from_dom(node))
@@ -312,7 +308,7 @@ def pyobj_from_dom(dom_node):
     return py_obj
 
 # Define mangled chars (should probably be exhaustive not selective)
-mangle = map(chr, range(256))
+mangle = list(map(chr, list(range(256))))
 mangle[ord('#')] = '_'
 mangle[ord(':')] = '_'
 mangle[ord('-')] = '_'

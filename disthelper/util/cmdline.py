@@ -90,15 +90,15 @@ class BasicOptParser:
             elif tup[0] == OPT_INT:
                 setattr(ropt,tup[3],int(val))				
             else:
-                raise "* internal error *"
+                raise Exception("* internal error *")
             
         return ropt,args
 
     def show_usage(self):
         """Print usage/help information"""
 
-        print "%s - %s\n\nUsage: %s [options] arg, ...\n" % \
-              (self.prog_name,self.prog_info,self.prog_name)
+        print("%s - %s\n\nUsage: %s [options] arg, ...\n" % \
+              (self.prog_name,self.prog_info,self.prog_name))
 
         for otype, s, l, attr, help in self.opts:
             
@@ -119,13 +119,13 @@ class BasicOptParser:
             if len(help):
                 hs = hs + ':\n\t' + help
 
-            print hs
+            print(hs)
 
     # -*- internal API below -*-
     
     def add_typeopt(self, otype, shortopt, longopt, attr, help=''):
         if shortopt != '' and len(shortopt) != 1:
-            raise "shortopt must be a single char, or ''"
+            raise Exception("shortopt must be a single char, or ''")
                 
         tup = (otype, shortopt, longopt, attr, help)
 
@@ -177,11 +177,11 @@ class BasicOptDataVal:
             elif otype == OPT_BOOL: 
                 setattr(self,attr,0)
             else:
-                raise "* internal error *"
+                raise Exception("* internal error *")
             
     def __str__(self):
         s = 'BasicOptDataVal:\n'
-        for k,v in self.__dict__.items():
+        for k,v in list(self.__dict__.items()):
             s = s + '    %s: %s\n' % (str(k),str(v))
 
         return s

@@ -2,7 +2,7 @@
 
 import gnosis.xml.pickle as xml_pickle
 #from gnosis.util.introspect import hasCoreData
-import funcs
+from . import funcs
 
 funcs.set_parser()
 
@@ -82,9 +82,9 @@ def scombo(inits,a,b):
     return s
 
 # ditto for unicode
-class _ucombo(unicode):
+class _ucombo(str):
     def __init__(self,initu):
-        unicode.__init__(self,initu)
+        str.__init__(self,initu)
 
 def ucombo(initu,a,b):
     s = _ucombo(initu)
@@ -104,7 +104,7 @@ class locore(long): pass
 class fcore(float): pass
 class ccore(complex): pass
 class score(str): pass
-class ucore(unicode): pass
+class ucore(str): pass
 
 xml_pickle.setParanoia(0)
 #xml_pickle.setDeepCopy(1)
@@ -114,7 +114,7 @@ def check_combo(o1,o2):
            o1.a != o2.a or o1.a.a != o2.a.a or \
            o1.a.b != o2.a.b or \
            o1.a.zz != o2.a.zz:
-        raise "ERROR(1)"
+        raise Exception("ERROR(1)")
     
 #
 # test all coredata+attr classes
@@ -198,7 +198,7 @@ check_combo(x,g)
 
 #print "* UCOMBO"
 x = top()
-x.a = ucombo(u'a unicode combo',1,2)
+x.a = ucombo('a unicode combo',1,2)
 x.a.zz = 10
 #print x.a, x.a.a, x.a.b, x.a.zz
 s = xml_pickle.dumps(x)
@@ -210,7 +210,7 @@ check_combo(x,g)
 def check_core(o1,o2):
     if o1.__class__ != o2.__class__ or \
            o1.a != o2.a:
-        raise "ERROR(2)"
+        raise Exception("ERROR(2)")
 
 #
 # test all coredata only classes
@@ -257,7 +257,7 @@ check_core(x,g)
 
 #print "* LOCORE"
 x = top()
-x.a = icore(12345L)
+x.a = icore(12345)
 #print x.a
 s = xml_pickle.dumps(x)
 #print s
@@ -297,7 +297,7 @@ check_core(x,g)
 
 #print "* UCORE"
 x = top()
-x.a = ucore(u"hello ucore")
+x.a = ucore("hello ucore")
 #print x.a
 s = xml_pickle.dumps(x)
 #print s
@@ -317,7 +317,7 @@ s = xml_pickle.dumps(x)
 g = xml_pickle.loads(s)
 #print x, x.a, x.b
 if g.a != x.a or g.b != x.b:
-    raise "ERROR(3)"
+    raise Exception("ERROR(3)")
 
 #print "* toplevel, wrapped"
 x = lcore([6,7,8])
@@ -327,7 +327,7 @@ s = xml_pickle.dumps(x)
 g = xml_pickle.loads(s)
 #print g
 if x != g:
-    raise "ERROR(4)"
+    raise Exception("ERROR(4)")
 
 # check empty containers
 
@@ -339,7 +339,7 @@ s = xml_pickle.dumps(x)
 g = xml_pickle.loads(s)
 #print g
 if x != g:
-    raise "ERROR(5)"
+    raise Exception("ERROR(5)")
 
 #print "* empty dict"
 x = dcore()
@@ -349,7 +349,7 @@ s = xml_pickle.dumps(x)
 g = xml_pickle.loads(s)
 #print g
 if x != g:
-    raise "ERROR(6)"
+    raise Exception("ERROR(6)")
 
 #print "* empty tuple"
 x = tcore()
@@ -359,9 +359,9 @@ s = xml_pickle.dumps(x)
 g = xml_pickle.loads(s)
 #print g
 if x != g:
-    raise "ERROR(7)"
+    raise Exception("ERROR(7)")
 
-print "** OK **"
+print("** OK **")
 
 
 

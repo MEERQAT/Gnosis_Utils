@@ -1,0 +1,4 @@
+/venv
+/.idea
+__pycache__
+/Gnosis_Utils.egg-info

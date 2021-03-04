@@ -4,8 +4,8 @@
 import gnosis.xml.pickle as xml_pickle
 from gnosis.xml.pickle import XML_Pickler
 from gnosis.xml.pickle.util import setParanoia
-from UserList import UserList
-import funcs
+from collections import UserList
+from . import funcs
 
 funcs.set_parser()
 
@@ -49,9 +49,9 @@ o = XML_Pickler().loads(x)
 if o[0].hello() != 'FOO!' or \
    o[1].hello() != 'BAR!' or \
    o[2].hello() != 'BAT!':
-    raise "ERROR(1)"
+    raise Exception("ERROR(1)")
 
-print "** OK **"
+print("** OK **")
 
 
 

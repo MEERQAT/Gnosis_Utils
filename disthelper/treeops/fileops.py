@@ -72,7 +72,7 @@ class TreeOpFromFileTransform(TreeOps):
     def process_one_file(self,fullname,opts):
         "Called for each matched file."
         if opts.verbose:
-            print fullname
+            print(fullname)
             
         #print "RUN FILE XFORM %s ON %s" % (fullname,str(self.filetransform))
         self.filetransform.run(fullname)

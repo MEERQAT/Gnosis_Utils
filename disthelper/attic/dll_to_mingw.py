@@ -24,7 +24,7 @@ from shutil import copy2
 
 try:
     # _winreg requires Python 2.0+, so make it optional
-    from _winreg import OpenKey, HKEY_LOCAL_MACHINE, EnumKey, \
+    from winreg import OpenKey, HKEY_LOCAL_MACHINE, EnumKey, \
          QueryInfoKey, QueryValueEx
     HAVE_WIN32_REGISTRY = 1
 except:
@@ -82,7 +82,7 @@ def make_mingw_lib_from_dll( destname, dllname ):
     dlltool = find_dlltool_or_bail()
     pexports = find_pexports_or_bail()
 
-    print "Converting %s -> %s" % (dllname,destname)
+    print("Converting %s -> %s" % (dllname,destname))
     
     savedir = os.getcwd()
 
@@ -95,13 +95,13 @@ def make_mingw_lib_from_dll( destname, dllname ):
     # create .def file
     cmd = "%s %s > temp.def" % \
           (pexports, os.path.basename(dllname))
-    print "CMD: ",cmd
+    print("CMD: ",cmd)
     os.system(cmd)
     
     # create .a
     cmd = "%s --dllname %s --def temp.def --output-lib %s" % \
           (dlltool, os.path.basename(dllname), destname)
-    print "CMD: ",cmd
+    print("CMD: ",cmd)
     os.system(cmd)
 
     # remove temporary files & tempdir
@@ -115,12 +115,12 @@ def find_dlltool_or_bail():
     
     name = find_exe_in_path('dlltool')
     if name is None:
-        print "***"
-        print "*** ERROR - dlltool.exe not found in PATH."
-        print "***"
-        print "*** Make sure you have installed gcc from either"
-        print "*** cygwin or mingw."
-        print "***"
+        print("***")
+        print("*** ERROR - dlltool.exe not found in PATH.")
+        print("***")
+        print("*** Make sure you have installed gcc from either")
+        print("*** cygwin or mingw.")
+        print("***")
         sys.exit(1)
     else:
         return name
@@ -130,13 +130,13 @@ def find_pexports_or_bail():
     
     name = find_exe_in_path('pexports')
     if name is None:
-        print "***"
-        print "*** ERROR - pexports.exe not found in PATH."
-        print "*** Please download it from:"
-        print "***   http://starship.python.net/crew/kernr/mingw32/pexports-0.42h.zip"
-        print "***"
-        print "*** And place 'pexports.exe' in your PATH."
-        print "***"
+        print("***")
+        print("*** ERROR - pexports.exe not found in PATH.")
+        print("*** Please download it from:")
+        print("***   http://starship.python.net/crew/kernr/mingw32/pexports-0.42h.zip")
+        print("***")
+        print("*** And place 'pexports.exe' in your PATH.")
+        print("***")
         sys.exit(1)
     else:
         return name
@@ -171,19 +171,19 @@ def unlink(filename):
         os.remove(filename)
 
 if os.name != 'nt':
-    print "*** ERROR, not running under win32."
-    print "*** Make sure you're running with a win32 native Python,"
-    print "*** not a cygwin version."
+    print("*** ERROR, not running under win32.")
+    print("*** Make sure you're running with a win32 native Python,")
+    print("*** not a cygwin version.")
     sys.exit(1)
     
 #print find_pexports_or_bail()
 #print find_dlltool_or_bail()
 
 if len(sys.argv) < 3:
-    print "Usage: dll_to_mingw.py DLL_NAME OUT_NAME"
-    print "Where:"
-    print "    DLL_NAME = .DLL file to convert"
-    print "    OUT_NAME = Name for lib to create (typically libNNN.a)"
+    print("Usage: dll_to_mingw.py DLL_NAME OUT_NAME")
+    print("Where:")
+    print("    DLL_NAME = .DLL file to convert")
+    print("    OUT_NAME = Name for lib to create (typically libNNN.a)")
     sys.exit(1)
 
 make_mingw_lib_from_dll(sys.argv[2],sys.argv[1])

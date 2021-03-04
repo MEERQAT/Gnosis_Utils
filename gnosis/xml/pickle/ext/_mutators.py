@@ -1,5 +1,5 @@
-from _mutate import XMLP_Mutator, XMLP_Mutated
-import _mutate
+from ._mutate import XMLP_Mutator, XMLP_Mutated
+from . import _mutate
 import sys, string
 from types import *
 from gnosis.util.introspect import isInstanceLike, attr_update, \
@@ -108,7 +108,7 @@ _mutate.add_mutator(mutate_sre())
 
 # save the pickle in the element body
 
-try:	import cPickle as pickle
+try:	import pickle as pickle
 except: import pickle
 
 class mutate_rawpickle(XMLP_Mutator):
@@ -155,8 +155,8 @@ class mutate_mxdatetime(XMLP_Mutator):
         # float where an int was expected
         #return apply(mx.DateTime.DateTime,map(float,m.groups()))		
 
-        args = map(int,m.groups()[:5]) + [float(m.group(6))]
-        return apply(mx.DateTime.DateTime,args)
+        args = list(map(int,m.groups()[:5])) + [float(m.group(6))]
+        return mx.DateTime.DateTime(*args)
 
 if mxDateTime_type is not None:
     _mutate.add_mutator(mutate_mxdatetime())
@@ -184,8 +184,8 @@ def olddata_to_newdata(data,extra,paranoia):
     #	if data[0] == '(' and data[-1] == ')':
     #		data = data[1:-1]
 
-    if isinstance_any(o,(IntType,FloatType,ComplexType,LongType)) and \
-                      type(data) in [StringType,UnicodeType]:
+    if isinstance_any(o,(int,float,complex)) and \
+                      type(data) in [str]:
         data = aton(data)
 
     o = setCoreData(o,data)
@@ -208,7 +208,7 @@ class mutate_bltin_instances(XMLP_Mutator):
 
     def mutate(self,obj):
 
-        if isinstance(obj,UnicodeType):
+        if isinstance(obj,str):
             # unicode strings are required to be placed in the body
             # (by our encoding scheme)
             self.in_body = 1

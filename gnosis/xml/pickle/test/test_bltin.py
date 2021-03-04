@@ -8,7 +8,7 @@
 from types import *
 import gnosis.xml.pickle as xml_pickle
 from gnosis.xml.pickle.util import setInBody
-import funcs
+from . import funcs
 
 funcs.set_parser()
 
@@ -21,13 +21,13 @@ def checkfoo(o1,o2):
     # make sure it pulled out the correct class
     if o1.__class__ != foo_class or \
        o2.__class__ != foo_class:
-        raise "ERROR(0)"
+        raise Exception("ERROR(0)")
 
     # check data
     for attr in ['s1','s2','f','i','i2','li',
                  'j','n','d','l','tup']:
         if getattr(o1,attr) != getattr(o2,attr):
-            raise "ERROR(1)"
+            raise Exception("ERROR(1)")
         
 ### we print type+value to make sure unpickling really worked
 ##def printfoo(obj):
@@ -58,7 +58,7 @@ foo.s2 = 'this is a \' string with a " in it'
 foo.f = 123.456
 foo.i = 789
 foo.i2 = 0 # zero was a bug in 1.0.1
-foo.li = 5678L
+foo.li = 5678
 foo.j = 12+34j
 foo.n = None
 
@@ -96,7 +96,7 @@ checkfoo(foo,bar)
 #print "---XML from copy---"
 #print x2
 
-print "** OK **"
+print("** OK **")
 
 
 

@@ -33,9 +33,9 @@ class TreeOps:
 
         self.__recurse_level = self.__recurse_level + 1
         
-        if type(things) not in [ListType,TupleType]:
+        if type(things) not in [list,tuple]:
             self.on_end_processing() # let caller cleanup before bailing
-            raise "'things' must be a sequence"
+            raise Exception("'things' must be a sequence")
         
         # this could be more compact, but have to maintain 1.5.2 compat
 
@@ -197,9 +197,9 @@ class TreeOptParser(BasicOptParser):
 
         # compile them all
         if opts.nocase:
-            regexlist = map(lambda x: re.compile(x,re.I), regexlist)
+            regexlist = [re.compile(x,re.I) for x in regexlist]
         else:
-            regexlist = map(lambda x: re.compile(x), regexlist)
+            regexlist = [re.compile(x) for x in regexlist]
             
         # save into opts
         setattr(opts, 'regexlist', regexlist)
@@ -219,9 +219,9 @@ class TreeOptParser(BasicOptParser):
 
         # compile them all
         if opts.nocase:
-            exclude_list = map(lambda x: re.compile(x,re.I), exclude_list)
+            exclude_list = [re.compile(x,re.I) for x in exclude_list]
         else:
-            exclude_list = map(lambda x: re.compile(x), exclude_list)
+            exclude_list = [re.compile(x) for x in exclude_list]
 
         # save into opts
         setattr(opts, 'exclude_list', exclude_list)

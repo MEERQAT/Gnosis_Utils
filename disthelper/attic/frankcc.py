@@ -13,12 +13,12 @@ class FrankCompiler(UnixCCompiler):
     def preprocess(self, source,
                    output_file=None, macros=None, include_dirs=None,
                    extra_preargs=None, extra_postargs=None):
-        print "PREPROCESS"
+        print("PREPROCESS")
         UnixCCompiler.preprocess(self,source,output_file,macros,
                                  include_dirs,extra_preargs,exta_postargs)
 
     def _compile(self,obj,src,ext,cc_args,extra_postargs,pp_opts):
-        print "_compile"
+        print("_compile")
         UnixCCompiler._compiler(self,obj,src,ext,cc_args,extra_postargs,pp_opts)
 
     def link(self, target_desc, objects,
@@ -27,7 +27,7 @@ class FrankCompiler(UnixCCompiler):
              export_symbols=None, debug=0, extra_preargs=None,
              extra_postargs=None, build_temp=None, target_lang=None):
 
-        print "LINK"
+        print("LINK")
         UnixCCompiler.link(self, target_desc, objects,
                            output_filename, output_dir, libraries,
                            library_dirs, runtime_library_dirs,

@@ -5,8 +5,8 @@ xml_objectify -- used to be necessary to workaround circular refs (fpm)"""
 
 import gnosis.xml.objectify as xo
 import gnosis.xml.pickle as xp
-from StringIO import StringIO
-import funcs
+from io import StringIO
+from . import funcs
 
 funcs.set_parser()
     
@@ -31,7 +31,7 @@ if o.Eggs.PCDATA != o2.Eggs.PCDATA or \
    o.MoreSpam.PCDATA != o2.MoreSpam.PCDATA:
     raise "ERROR(1)"
 
-print "** OK **"
+print("** OK **")
 
 
 

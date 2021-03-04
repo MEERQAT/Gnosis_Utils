@@ -1,8 +1,8 @@
 "Demonstrate that on-the-fly and gnosis.xml.* namespaces not saved in XML file --fpm"
 
 import gnosis.xml.pickle as xml_pickle
-from UserList import UserList
-import funcs
+from collections import UserList
+from . import funcs
 import re
 
 funcs.set_parser()
@@ -23,13 +23,13 @@ p = xml_pickle.loads(ud_xml)
 # print it so we can see the modname
 #print "Fullname = "+str(p)
 if str(p.__class__) != 'gnosis.xml.pickle.util._util.Foo':
-    raise "ERROR(1)"
+    raise Exception("ERROR(1)")
 
 # dump and make sure modname doesn't stick
 s = xml_pickle.dumps(p)
 #print s
 if re.search(s,'module'):
-    raise "ERROR(2)"
+    raise Exception("ERROR(2)")
 
 #print "From (old) xml_pickle namespace -- SHOULD *NOT* SEE MODULE NAME IN XML"
 # put Foo into xml_pickle namespace
@@ -38,13 +38,13 @@ p = xml_pickle.loads(ud_xml)
 # print it so we can see the modname
 #print "Fullname = "+str(p)
 if str(p.__class__) != '__main__.myfoo':
-    raise "ERROR(3)"
+    raise Exception("ERROR(3)")
 
 # dump it and make sure modname doesn't stick
 s = xml_pickle.dumps(p)
 #print s
 if re.search(s,'module'):
-    raise "ERROR(4)"
+    raise Exception("ERROR(4)")
 
 # delete so it won't be found again below
 del xml_pickle.Foo
@@ -57,13 +57,13 @@ p = xml_pickle.loads(ud_xml)
 # print it so we can see the modname
 #print "Fullname = "+str(p)
 if str(p.__class__) != '__main__.myfoo':
-    raise "ERROR(5)"
+    raise Exception("ERROR(5)")
 
 # dump & make sure modname doesn't stick
 s = xml_pickle.dumps(p)
 #print s
 if re.search('module',s):
-    raise "ERROR(6)"
+    raise Exception("ERROR(6)")
 
 # remove so it won't be found again below
 xml_pickle.remove_class_from_store('Foo')
@@ -76,14 +76,14 @@ p = xml_pickle.loads(ud_xml)
 # print it so we can see the modname
 #print "Fullname = "+str(p)
 if str(p.__class__) != '__main__.Foo':
-    raise "ERROR(7)"
+    raise Exception("ERROR(7)")
 
 # dump & make sure module name is written
 s = xml_pickle.dumps(p)
 #print s
 if not re.search('PyObject\s+module="__main__"\s+class="Foo"',s):
-    raise "ERROR(8)"
+    raise Exception("ERROR(8)")
 
-print "** OK **"
+print("** OK **")
 
 

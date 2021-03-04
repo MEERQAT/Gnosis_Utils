@@ -25,7 +25,7 @@ from shutil import copy2
 
 try:
     # _winreg requires Python 2.0+, so make it optional
-    from _winreg import OpenKey, HKEY_LOCAL_MACHINE, EnumKey, \
+    from winreg import OpenKey, HKEY_LOCAL_MACHINE, EnumKey, \
          QueryInfoKey, QueryValueEx
     HAVE_WIN32_REGISTRY = 1
 except:
@@ -52,7 +52,7 @@ def make_mingw_lib_from_dll( destname, dllname ):
     dlltool = find_dlltool_or_bail()
     pexports = find_pexports_or_bail()
 
-    print "Converting %s -> %s" % (dllname,destname)
+    print("Converting %s -> %s" % (dllname,destname))
     
     savedir = os.getcwd()
 
@@ -159,12 +159,12 @@ def find_dlltool_or_bail():
     
     name = find_exe_in_path('dlltool')
     if name is None:
-        print "***"
-        print "*** ERROR - dlltool.exe not found in PATH."
-        print "***"
-        print "*** Make sure you have installed gcc from either"
-        print "*** cygwin or mingw."
-        print "***"
+        print("***")
+        print("*** ERROR - dlltool.exe not found in PATH.")
+        print("***")
+        print("*** Make sure you have installed gcc from either")
+        print("*** cygwin or mingw.")
+        print("***")
         sys.exit(1)
     else:
         return name
@@ -174,13 +174,13 @@ def find_pexports_or_bail():
     
     name = find_exe_in_path('pexports')
     if name is None:
-        print "***"
-        print "*** ERROR - pexports.exe not found in PATH."
-        print "*** Please download it from:"
-        print "***   http://starship.python.net/crew/kernr/mingw32/pexports-0.42h.zip"
-        print "***"
-        print "*** And place 'pexports.exe' in your PATH."
-        print "***"
+        print("***")
+        print("*** ERROR - pexports.exe not found in PATH.")
+        print("*** Please download it from:")
+        print("***   http://starship.python.net/crew/kernr/mingw32/pexports-0.42h.zip")
+        print("***")
+        print("*** And place 'pexports.exe' in your PATH.")
+        print("***")
         sys.exit(1)
     else:
         return name
@@ -201,22 +201,22 @@ def find_python_win32_dll( ver ):
     return None
 
 if len(sys.argv) < 2:
-    print "\nUsage: make_mingw_pylibs.py [--all] [version]"
-    print ""
-    print "     Creates MinGW libraries (.a) from the Python .DLLs."
-    print "     This allows you to use MinGW (or cygwin, with 'gcc -mno-cygwin')"
-    print "     to create Python extension modules that will run on any win32"
-    print "     system (i.e. cygwin not needed)."
-    print ""
-    print "     The generated .a files are automatically installed into the"
-    print "     correct directory (i.e. PYTHONROOT\\libs)"
-    print ""
-    print "You can pass either:"
-    print ""
-    print "     --all: Find and convert all Python DLLs on the host system."
-    print ""
-    print "     version: convert DLLs for a specific version only (e.g. 2.3)"
-    print ""
+    print("\nUsage: make_mingw_pylibs.py [--all] [version]")
+    print("")
+    print("     Creates MinGW libraries (.a) from the Python .DLLs.")
+    print("     This allows you to use MinGW (or cygwin, with 'gcc -mno-cygwin')")
+    print("     to create Python extension modules that will run on any win32")
+    print("     system (i.e. cygwin not needed).")
+    print("")
+    print("     The generated .a files are automatically installed into the")
+    print("     correct directory (i.e. PYTHONROOT\\libs)")
+    print("")
+    print("You can pass either:")
+    print("")
+    print("     --all: Find and convert all Python DLLs on the host system.")
+    print("")
+    print("     version: convert DLLs for a specific version only (e.g. 2.3)")
+    print("")
     
     sys.exit(1)
 
@@ -226,19 +226,19 @@ else:
     try:
         pyver = find_python.parse_version_string(sys.argv[1])
     except:
-        print ""
-        print "** Sorry, can't parse version string '%s'." % sys.argv[1]
-        print "** You must pass a string like 2, 2.1, 2.1.3."
-        print ""
+        print("")
+        print("** Sorry, can't parse version string '%s'." % sys.argv[1])
+        print("** You must pass a string like 2, 2.1, 2.1.3.")
+        print("")
         sys.exit(1)
 
     # the DLLs are only specified to minor version (i.e. 2.1)
     # so only need to match that much of the string
     exe = find_py_minor(pyver)
     if exe is None:
-        print ""
-        print "** Sorry, no such Python version %s" % sys.argv[1]
-        print ""
+        print("")
+        print("** Sorry, no such Python version %s" % sys.argv[1])
+        print("")
         sys.exit(1)
             
     thelist = [(exe,pyver[:2]+[0])]
@@ -247,15 +247,15 @@ had_failure = 0
 
 for exe,ver in thelist:
     dll = find_python_win32_dll( ver )
-    print "%s, version = %d.%d.%d, dll = %s" % \
-          (exe,ver[0],ver[1],ver[2],dll)
+    print("%s, version = %d.%d.%d, dll = %s" % \
+          (exe,ver[0],ver[1],ver[2],dll))
     
     # the .a file will be placed in $PYTHONDIR\libs
     libdir = os.path.join( os.path.dirname(exe), 'libs' )
 
     if os.access(libdir, os.W_OK) == 0:
-        print "**** WARNING ****"
-        print "**** Can't write to %s, skipping!" % libdir
+        print("**** WARNING ****")
+        print("**** Can't write to %s, skipping!" % libdir)
         had_failure = 1
     else:
         libname = os.path.splitext(os.path.basename(dll))[0]
@@ -264,26 +264,26 @@ for exe,ver in thelist:
         make_mingw_lib_from_dll(libname,dll)
 
 if had_failure:
-    print "*** WARNING ***"
-    print "*** There were one or more errors in the conversion process."
-    print "*** Recommend you correct the errors and try again."
+    print("*** WARNING ***")
+    print("*** There were one or more errors in the conversion process.")
+    print("*** Recommend you correct the errors and try again.")
 else:
-    print "**"
-    print "** Conversion complete"
-    print "**"
-    print "** Now, to build native win32 extension modules, all you"
-    print "** have to do is call your setup.py like this:"
-    print "**"
-    print "**       python setup.py -cmingw32"
-    print "**"
-    print "**   [This works for both MinGW & cygwin with 'gcc -mno-cygwin']"
-    print "**"
-    print "** NOTE: If you let distutils run SWIG for you, and you"
-    print "**       are using Python <= 2.2, read the notes at:"
-    print "**"
-    print "**          http://sebsauvage.net/python/mingw.html"
-    print "**"
-    print "**       On minor changes you'll need to make to distutils."
-    print "**"
+    print("**")
+    print("** Conversion complete")
+    print("**")
+    print("** Now, to build native win32 extension modules, all you")
+    print("** have to do is call your setup.py like this:")
+    print("**")
+    print("**       python setup.py -cmingw32")
+    print("**")
+    print("**   [This works for both MinGW & cygwin with 'gcc -mno-cygwin']")
+    print("**")
+    print("** NOTE: If you let distutils run SWIG for you, and you")
+    print("**       are using Python <= 2.2, read the notes at:")
+    print("**")
+    print("**          http://sebsauvage.net/python/mingw.html")
+    print("**")
+    print("**       On minor changes you'll need to make to distutils.")
+    print("**")
 
     

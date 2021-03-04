@@ -3,13 +3,12 @@
 Please see the information at gnosis.xml.objectify.doc for additional
 explanation of usage, design, license, and other details
 """
-from __future__ import generators
+
 from gnosis.xml.objectify._objectify import _XO_
 from gnosis.xml.objectify._objectify import *
-from exceptions import TypeError
 from types import *
 from itertools import islice
-from sys import maxint, stdout
+from sys import maxsize, stdout
 
 def addChild(parent, child):
     "Add a child xmlObject to a parent xmlObject"
@@ -39,7 +38,7 @@ def write_xml(o, out=stdout):
         out.write(' %s=%s' % attr)
     out.write('>')
     for node in content(o):
-        if type(node) in StringTypes:
+        if type(node) in [str]:
             out.write(node)
         else:
             write_xml(node, out=out)
@@ -48,8 +47,7 @@ def write_xml(o, out=stdout):
 def XPath(o, path):
     "Find node(s) within an _XO_ object"
     if not isinstance(o,_XO_):
-        raise TypeError, \
-              "XPath() only defined on gnosis.xml.objectify._XO_ object"
+        raise TypeError("XPath() only defined on gnosis.xml.objectify._XO_ object")
     path = path.replace('//','/!!') # Placeholder hack for easy splitting
     if path.startswith('/'):        # No need for init / since node==root
         path = path[1:]
@@ -89,18 +87,18 @@ def XPath(o, path):
 def indices(path):
     if '[' in path:                 # Check for indices
         path, param = path[:-1].split('[')
-        slice_ = map(int, param.split('..'))
+        slice_ = list(map(int, param.split('..')))
         start = slice_[0]-1
         if len(slice_) == 2:
             stop = slice_[1]
         else:
             stop = start+1
     else:
-        start, stop = 0, maxint
+        start, stop = 0, maxsize
     return path, start, stop
 
 def _dir(o):
-    try:    return o.__dict__.keys()
+    try:    return list(o.__dict__.keys())
     except: return []
 
 #-- Self-test utility functions
@@ -116,16 +114,16 @@ def pyobj_printer(py_obj, level=0):
             if membname in ("__parent__", "_seq"):
                continue             # ExpatFactory uses bookeeping attribute
             member = getattr(py_obj,membname)
-            if type(member) == InstanceType:
+            if type(member) == object:
                 descript += '\n'+(' '*level)+'{'+membname+'}\n'
                 descript += pyobj_printer(member, level+3)
-            elif type(member) == ListType:
+            elif type(member) == list:
                 for i in range(len(member)):
                     descript += '\n'+(' '*level)+'['+membname+'] #'+str(i+1)
                     descript += (' '*level)+'\n'+pyobj_printer(member[i],level+3)
             else:
                 descript += (' '*level)+membname+'='
-                memval = ' '.join(unicode(member).split())
+                memval = ' '.join(str(member).split())
                 if len(memval) > 50:
                     descript += memval[:50]+'...\n'
                 else:

@@ -1,11 +1,11 @@
 "Demonstrate that SRE xml pickling works --fpm "
 
-import UserList, UserDict, sys
+import collections, UserDict, sys
 from types import *
 import gnosis.xml.pickle as xml_pickle
-import re, StringIO
+import re, io
 from gnosis.xml.pickle.util import setParanoia, getParanoia
-import funcs
+from . import funcs
 
 funcs.set_parser()
 
@@ -16,24 +16,24 @@ class foo_class:
 def checkfoo(o1,o2):
     if o1.__class__ != foo_class or \
        o2.__class__ != foo_class:
-        raise "ERROR(0)"
+        raise Exception("ERROR(0)")
     
     for attr in ['sre','d','ud','l','ul','tup']:
         if getattr(o1,attr) != getattr(o2,attr):
-            raise "ERROR(1)"
+            raise Exception("ERROR(1)")
 
 def printfoo(obj):
-    print type(obj.sre), obj.sre.pattern
-    print type(obj.d), ":%s:%s:" % \
-          (obj.d['One'].pattern, obj.d['Two'].pattern)
-    print type(obj.ud), ":%s:%s:" % \
-          (obj.ud['OneOne'].pattern, obj.ud['TwoTwo'].pattern)
-    print type(obj.l), ":%s:%s" % \
-          (obj.l[0].pattern, obj.l[1].pattern)
-    print type(obj.ul), ":%s:%s" % \
-          (obj.ul[0].pattern, obj.ul[1].pattern)
-    print type(obj.tup), ":%s:%s:" % \
-          (obj.tup[0].pattern, obj.tup[1].pattern)
+    print(type(obj.sre), obj.sre.pattern)
+    print(type(obj.d), ":%s:%s:" % \
+          (obj.d['One'].pattern, obj.d['Two'].pattern))
+    print(type(obj.ud), ":%s:%s:" % \
+          (obj.ud['OneOne'].pattern, obj.ud['TwoTwo'].pattern))
+    print(type(obj.l), ":%s:%s" % \
+          (obj.l[0].pattern, obj.l[1].pattern))
+    print(type(obj.ul), ":%s:%s" % \
+          (obj.ul[0].pattern, obj.ul[1].pattern))
+    print(type(obj.tup), ":%s:%s:" % \
+          (obj.tup[0].pattern, obj.tup[1].pattern))
 
 foo = foo_class()
 
@@ -57,7 +57,7 @@ foo.l = []
 foo.l.append( re.compile('[foo|bar]?') )
 foo.l.append( re.compile('[qrs]+[1-9]?') )
 
-foo.ul = UserList.UserList()
+foo.ul = collections.UserList()
 foo.ul.append( re.compile('[+\-][0-9]+') )
 foo.ul.append( re.compile('(bored yet)?') )
 
@@ -88,4 +88,4 @@ checkfoo(bar,baz)
 #print "---XML from copy---"
 #print x2
 
-print "** OK **"
+print("** OK **")

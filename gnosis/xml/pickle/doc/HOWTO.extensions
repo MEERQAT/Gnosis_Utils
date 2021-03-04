@@ -51,11 +51,11 @@ integers into strings:
 
 Now, to add silly_mutator to xml_pickle, you do:
 
-    m = silly_mutator( IntType, "silly_string", in_body=1 )
+    m = silly_mutator( int, "silly_string", in_body=1 )
     mutate.add_mutator( m )
 
     Explanation:
-       The parameter "IntType" says that we want to catch integers.
+       The parameter "int" says that we want to catch integers.
        "silly_string" will be the typename in the XML stream.
        "in_body=1" tells xml_pickle to place the value string in the body
         of the tag.
@@ -79,7 +79,7 @@ Mutator can define two additional functions:
            # return 1 if we can unmutate mobj, 0 if not
 
 By default, a Mutator will be asked to mutate/unmutate all objects of
-the type it registered ("IntType", in our silly example). You would
+the type it registered ("int", in our silly example). You would
 only need to override wants_obj/wants_mutated to provide specialized
 sub-type handling (based on content, for example). test_mutators.py
 shows examples of how to do this.

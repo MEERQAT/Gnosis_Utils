@@ -8,14 +8,14 @@
 # make sure I can import disthelper
 import sys
 sys.path.insert(0,'.')
-import grab_disthelper
+from . import grab_disthelper
 
 # now the real code begins ...
 
 from disthelper.treeops.treeops import *
 from disthelper.treeops.fileops import *
 from disthelper.treeops.lineops import untabify_line, copy_line
-from indentcheck import *
+from .indentcheck import *
 
 # define the command-line arg parser
 class argv_parser(TreeOptParser):
@@ -32,7 +32,7 @@ p = argv_parser()
 opts,args = p.parse_argv(sys.argv)
 
 if opts.tabwidth is None:
-    print "** ERROR: You must specify a tab-width with -w"
+    print("** ERROR: You must specify a tab-width with -w")
     p.show_usage()
     sys.exit(1)
 
@@ -56,7 +56,7 @@ class UntabifyFileTransform(FileTransformFromLineOp):
     def process(self, file_out, file_in):
         if has_tab_space_mixing( file_in ):
             # too dangerous to try untabifying with mixed line beginnings			
-            print "ERROR: Skipping file '%s' - has mixed tabs & spaces" % file_in.name
+            print("ERROR: Skipping file '%s' - has mixed tabs & spaces" % file_in.name)
             self.set_lineop( copy_line )
         else:
             self.set_lineop( self.my_untabify )
